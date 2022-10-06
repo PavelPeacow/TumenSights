@@ -10,6 +10,8 @@ import MapKit
 
 struct Sight: Codable {
     let name: String
+    let subtitle: String
+    
     let latitude: Double
     let longitude: Double
 }

@@ -10,13 +10,7 @@ import MapKit
 
 class ViewController: UIViewController {
     
-    private var sights = [Sight]()
-    
-    private let tableView: UITableView = {
-        let tableView = UITableView(frame: .zero, style: .grouped)
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "loh")
-        return tableView
-    }()
+    private var sights = JsonDecoder.shared.getJsonData() ?? []
     
     private let mapView: MKMapView = {
         let mapView = MKMapView()
@@ -29,60 +23,49 @@ class ViewController: UIViewController {
         
         view.backgroundColor = .systemBackground
         
-        view.addSubview(tableView)
         view.addSubview(mapView)
         
+        centerMapCamera()
         addAnnotationsToMap()
-
+        
         setDelegates()
+        setConstraints()
     }
     
     private func setDelegates() {
-        tableView.delegate = self
-        tableView.dataSource = self
         mapView.delegate = self
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        tableView.frame = view.bounds
-        mapView.frame = view.bounds
+    private func centerMapCamera() {
+        let coordinate = CLLocationCoordinate2D(latitude: 57.148470, longitude: 65.549138)
+        let span = MKCoordinateSpan(latitudeDelta: 0.2, longitudeDelta: 0.2)
+        let region = MKCoordinateRegion(center: coordinate, span: span)
+        mapView.setRegion(region, animated: true)
     }
     
     private func addAnnotationsToMap() {
         
-        sights = JsonDecoder.shared.getJsonData() ?? []
         print(sights)
         
         for sight in sights {
-            
-            let someSight = SightOnMap(title: sight.name, coordinate: CLLocationCoordinate2D(latitude: sight.latitude, longitude: sight.longitude), subtitle: sight.name)
-                mapView.addAnnotation(someSight)
-            
+            let someSight = SightOnMap(title: sight.name, coordinate: CLLocationCoordinate2D(latitude: sight.latitude, longitude: sight.longitude), subtitle: sight.subtitle)
+            mapView.addAnnotation(someSight)
         }
     }
     
 }
 
-
-extension ViewController: UITableViewDataSource, UITableViewDelegate {
+extension ViewController {
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        sights.count
+    func setConstraints() {
+        NSLayoutConstraint.activate([
+            mapView.topAnchor.constraint(equalTo: view.topAnchor),
+            mapView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            mapView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            mapView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ])
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "loh", for: indexPath)
-        
-        cell.textLabel?.text = sights[indexPath.row].name
-        
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-    }
-
 }
 
 extension ViewController: MKMapViewDelegate {
@@ -97,11 +80,25 @@ extension ViewController: MKMapViewDelegate {
         annotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: identifier)
         annotationView?.canShowCallout = true
         annotationView?.markerTintColor = .green
-            
+        
         let btn = UIButton(type: .detailDisclosure)
         annotationView?.rightCalloutAccessoryView = btn
-       
+        
+        let detailLabel = UILabel()
+        detailLabel.numberOfLines = 0
+        detailLabel.font = detailLabel.font.withSize(12)
+        detailLabel.text = annotation.subtitle!
+        annotationView?.detailCalloutAccessoryView = detailLabel
         
         return annotationView
+    }
+    
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        view.setSelected(false, animated: true)
+        let sight = view.annotation as! SightOnMap
+        let sightDetail = SightDetail(name: sight.title!, subtitle: sight.subtitle!)
+        let vc = SightDetailViewController()
+        vc.configure(with: sightDetail)
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
