@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import MapKit
 
 class ViewController: UIViewController {
     
@@ -17,42 +18,52 @@ class ViewController: UIViewController {
         return tableView
     }()
     
+    private let mapView: MKMapView = {
+        let mapView = MKMapView()
+        mapView.translatesAutoresizingMaskIntoConstraints = false
+        return mapView
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .systemBackground
         
         view.addSubview(tableView)
+        view.addSubview(mapView)
         
-        fetchTumenSight()
-        
+        addAnnotationsToMap()
+
         setDelegates()
     }
     
     private func setDelegates() {
         tableView.delegate = self
         tableView.dataSource = self
+        mapView.delegate = self
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         tableView.frame = view.bounds
+        mapView.frame = view.bounds
     }
     
-}
-
-extension ViewController {
-    
-    func fetchTumenSight() {
-        APICaller.shared.fetchTumenSights { result in
-            DispatchQueue.main.async { [weak self] in
-                self?.sights = result
-                self?.tableView.reloadData()
-            }
+    private func addAnnotationsToMap() {
+        
+        sights = JsonDecoder.shared.getJsonData() ?? []
+        print(sights)
+        
+        for sight in sights {
+            
+            let someSight = SightOnMap(title: sight.name, coordinate: CLLocationCoordinate2D(latitude: sight.latitude, longitude: sight.longitude), subtitle: sight.name)
+                mapView.addAnnotation(someSight)
+            
         }
     }
     
 }
+
 
 extension ViewController: UITableViewDataSource, UITableViewDelegate {
     
@@ -72,5 +83,25 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
     }
 
+}
+
+extension ViewController: MKMapViewDelegate {
     
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        guard annotation is SightOnMap else { return nil }
+        
+        let identifier = "Sight"
+        
+        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKMarkerAnnotationView
+        
+        annotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+        annotationView?.canShowCallout = true
+        annotationView?.markerTintColor = .green
+            
+        let btn = UIButton(type: .detailDisclosure)
+        annotationView?.rightCalloutAccessoryView = btn
+       
+        
+        return annotationView
+    }
 }

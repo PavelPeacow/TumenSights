@@ -6,18 +6,23 @@
 //
 
 import Foundation
+import MapKit
 
 struct Sight: Codable {
-    let xid: String
     let name: String
-    let rate: Int
-    let wikidata: String
-    let kinds: String
-    
-    let point: Points
+    let latitude: Double
+    let longitude: Double
 }
 
-struct Points: Codable {
-    let lon: Double
-    let lat: Double
+class SightOnMap: NSObject, MKAnnotation {
+    var coordinate: CLLocationCoordinate2D
+    var title: String?
+    var subtitle: String?
+    
+    init(title: String, coordinate: CLLocationCoordinate2D, subtitle: String) {
+        self.title = title
+        self.subtitle = subtitle
+        self.coordinate = coordinate
+    }
+    
 }
