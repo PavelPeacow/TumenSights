@@ -13,7 +13,9 @@ class SightDetailViewController: UIViewController {
     
     private let sightImage: UIImageView = {
         let sightImage = UIImageView()
-        sightImage.contentMode = .scaleAspectFit
+        sightImage.clipsToBounds = true
+        sightImage.layer.cornerRadius = 25
+        sightImage.contentMode = .scaleAspectFill
         sightImage.translatesAutoresizingMaskIntoConstraints = false
         return sightImage
     }()
@@ -31,6 +33,14 @@ class SightDetailViewController: UIViewController {
         sightDescription.numberOfLines = 0
         return sightDescription
     }()
+    
+    private lazy var getRouteButton: UIButton = {
+        let getRouteButton = UIButton(configuration: UIButton.Configuration.bordered())
+        getRouteButton.translatesAutoresizingMaskIntoConstraints = false
+        getRouteButton.setTitle("Построит маршрут", for: .normal)
+        getRouteButton.addTarget(self, action: #selector(getRoute), for: .touchUpInside)
+        return getRouteButton
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,7 +51,13 @@ class SightDetailViewController: UIViewController {
         scrollView.addSubview(sightImage)
         scrollView.addSubview(sightName)
         scrollView.addSubview(sightDescription)
+        scrollView.addSubview(getRouteButton)
         setConstraints()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        scrollView.frame = view.bounds
     }
     
     public func configure(with model: SightDetail) {
@@ -50,9 +66,9 @@ class SightDetailViewController: UIViewController {
         sightDescription.text = model.subtitle
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        scrollView.frame = view.bounds
+    @objc private func getRoute() {
+        print("tapp")
+        navigationController?.popViewController(animated: true)
     }
 
 }
@@ -62,17 +78,22 @@ extension SightDetailViewController {
     func setConstraints() {
         NSLayoutConstraint.activate([
             sightImage.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 15),
-            sightImage.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
-            sightImage.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
-            sightImage.heightAnchor.constraint(equalToConstant: 200),
+            sightImage.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 15),
+            sightImage.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -15),
+            sightImage.heightAnchor.constraint(equalToConstant: 300),
             
             sightName.topAnchor.constraint(equalTo: sightImage.bottomAnchor, constant: 10),
             sightName.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
             sightDescription.topAnchor.constraint(equalTo: sightName.bottomAnchor, constant: 15),
-            sightDescription.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 15),
-            sightDescription.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -15),
-            sightDescription.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            sightDescription.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 15),
+            sightDescription.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -15),
+            
+            getRouteButton.topAnchor.constraint(equalTo: sightDescription.bottomAnchor, constant: 15),
+            getRouteButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            getRouteButton.heightAnchor.constraint(equalToConstant: 25),
+            getRouteButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.75),
+            getRouteButton.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
         ])
     }
 }

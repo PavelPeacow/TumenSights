@@ -7,16 +7,25 @@
 
 import UIKit
 import MapKit
+import CoreLocation
 
 class ViewController: UIViewController {
     
     private var sights = JsonDecoder.shared.getJsonData() ?? []
     
+    private let userLocationManager: CLLocationManager = {
+        let locationManager = CLLocationManager()
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        return locationManager
+    }()
+        
     private let mapView: MKMapView = {
         let mapView = MKMapView()
         mapView.translatesAutoresizingMaskIntoConstraints = false
         return mapView
     }()
+    
+    private lazy var navBarItem = UIBarButtonItem(image: UIImage(systemName: "location.fill"), style: .done, target: self, action: #selector(requestUserLocation))
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,12 +37,18 @@ class ViewController: UIViewController {
         centerMapCamera()
         addAnnotationsToMap()
         
+        setNavBar()
         setDelegates()
         setConstraints()
     }
     
     private func setDelegates() {
         mapView.delegate = self
+        userLocationManager.delegate = self
+    }
+    
+    private func setNavBar() {
+        navigationItem.rightBarButtonItem = navBarItem
     }
     
     private func centerMapCamera() {
@@ -46,10 +61,20 @@ class ViewController: UIViewController {
     private func addAnnotationsToMap() {
         
         print(sights)
-        
+
         for sight in sights {
             let someSight = SightOnMap(title: sight.name, coordinate: CLLocationCoordinate2D(latitude: sight.latitude, longitude: sight.longitude), subtitle: sight.subtitle)
             mapView.addAnnotation(someSight)
+        }
+    }
+    
+    @objc private func requestUserLocation() {
+        if CLLocationManager.locationServicesEnabled() {
+            userLocationManager.requestWhenInUseAuthorization()
+            locationManagerDidChangeAuthorization(userLocationManager)
+            print("peremoga")
+        } else {
+            showTurnUserLocationOnDeviceAlert()
         }
     }
     
@@ -59,7 +84,7 @@ extension ViewController {
     
     func setConstraints() {
         NSLayoutConstraint.activate([
-            mapView.topAnchor.constraint(equalTo: view.topAnchor),
+            mapView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             mapView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             mapView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             mapView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
@@ -99,6 +124,44 @@ extension ViewController: MKMapViewDelegate {
         let sightDetail = SightDetail(name: sight.title!, subtitle: sight.subtitle!)
         let vc = SightDetailViewController()
         vc.configure(with: sightDetail)
+
         navigationController?.pushViewController(vc, animated: true)
     }
+}
+
+extension ViewController: CLLocationManagerDelegate {
+    
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        let status = manager.authorizationStatus
+        
+        switch status {
+        case .notDetermined:
+            userLocationManager.requestWhenInUseAuthorization()
+            print("notDetermined")
+        case .restricted:
+            print("restricted")
+        case .denied:
+            showTurnUserLocationOnDeviceAlert()
+            print("denied")
+        case .authorizedAlways:
+            print("authorizedAlways")
+        case .authorizedWhenInUse:
+            mapView.showsUserLocation = true
+            userLocationManager.startUpdatingLocation()
+            print("authorizedWhenInUse")
+        @unknown default:
+            print("new status")
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let location = locations.first {
+            print(location)
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print(error)
+    }
+    
 }

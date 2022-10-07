@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B5585FEB28F038BC001E45E9 /* Alerts.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5585FEA28F038BC001E45E9 /* Alerts.swift */; };
 		B55A6D6328EEF20B000497C8 /* JsonDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55A6D6228EEF20B000497C8 /* JsonDecoder.swift */; };
 		B55A6D6628EF012D000497C8 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55A6D6528EF012D000497C8 /* MainTabBarController.swift */; };
 		B55A6D6828EF083B000497C8 /* SightsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55A6D6728EF083B000497C8 /* SightsTableViewController.swift */; };
@@ -23,6 +24,7 @@
 
 /* Begin PBXFileReference section */
 		B50EADF428E60B0B00A099D1 /* SightCollection.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = SightCollection.json; sourceTree = "<group>"; };
+		B5585FEA28F038BC001E45E9 /* Alerts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alerts.swift; sourceTree = "<group>"; };
 		B55A6D6228EEF20B000497C8 /* JsonDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonDecoder.swift; sourceTree = "<group>"; };
 		B55A6D6528EF012D000497C8 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		B55A6D6728EF083B000497C8 /* SightsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SightsTableViewController.swift; sourceTree = "<group>"; };
@@ -49,6 +51,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B5585FEC28F038C0001E45E9 /* Alerts */ = {
+			isa = PBXGroup;
+			children = (
+				B5585FEA28F038BC001E45E9 /* Alerts.swift */,
+			);
+			path = Alerts;
+			sourceTree = "<group>";
+		};
 		B55A6D6428EEF6A1000497C8 /* Json */ = {
 			isa = PBXGroup;
 			children = (
@@ -89,6 +99,7 @@
 				B5ACD79A28E5996800A5167C /* JsonManager */,
 				B5ACD79E28E59ABA00A5167C /* Model */,
 				B55A6D6D28EF15F0000497C8 /* ViewModel */,
+				B5585FEC28F038C0001E45E9 /* Alerts */,
 				B5ACD79B28E5997B00A5167C /* Controllers */,
 				B5ACD78A28E5980600A5167C /* Assets.xcassets */,
 				B5ACD78F28E5980600A5167C /* Info.plist */,
@@ -210,6 +221,7 @@
 				B55A6D6828EF083B000497C8 /* SightsTableViewController.swift in Sources */,
 				B55A6D6A28EF131C000497C8 /* SightDetailViewController.swift in Sources */,
 				B55A6D6628EF012D000497C8 /* MainTabBarController.swift in Sources */,
+				B5585FEB28F038BC001E45E9 /* Alerts.swift in Sources */,
 				B55A6D6328EEF20B000497C8 /* JsonDecoder.swift in Sources */,
 				B5ACD78428E5980600A5167C /* SceneDelegate.swift in Sources */,
 				B5ACD79D28E59AB700A5167C /* SightModel.swift in Sources */,
