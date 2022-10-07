@@ -15,7 +15,7 @@
 		B55A6D6C28EF15ED000497C8 /* SightDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55A6D6B28EF15ED000497C8 /* SightDetailViewModel.swift */; };
 		B5ACD78228E5980600A5167C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5ACD78128E5980600A5167C /* AppDelegate.swift */; };
 		B5ACD78428E5980600A5167C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5ACD78328E5980600A5167C /* SceneDelegate.swift */; };
-		B5ACD78628E5980600A5167C /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5ACD78528E5980600A5167C /* ViewController.swift */; };
+		B5ACD78628E5980600A5167C /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5ACD78528E5980600A5167C /* MapViewController.swift */; };
 		B5ACD78B28E5980600A5167C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B5ACD78A28E5980600A5167C /* Assets.xcassets */; };
 		B5ACD78E28E5980600A5167C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B5ACD78C28E5980600A5167C /* LaunchScreen.storyboard */; };
 		B5ACD79D28E59AB700A5167C /* SightModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5ACD79C28E59AB700A5167C /* SightModel.swift */; };
@@ -33,7 +33,7 @@
 		B5ACD77E28E5980600A5167C /* TumenMustHave.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TumenMustHave.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5ACD78128E5980600A5167C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B5ACD78328E5980600A5167C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		B5ACD78528E5980600A5167C /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		B5ACD78528E5980600A5167C /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		B5ACD78A28E5980600A5167C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B5ACD78D28E5980600A5167C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B5ACD78F28E5980600A5167C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -129,7 +129,7 @@
 			isa = PBXGroup;
 			children = (
 				B55A6D6528EF012D000497C8 /* MainTabBarController.swift */,
-				B5ACD78528E5980600A5167C /* ViewController.swift */,
+				B5ACD78528E5980600A5167C /* MapViewController.swift */,
 				B55A6D6728EF083B000497C8 /* SightsTableViewController.swift */,
 				B55A6D6928EF131C000497C8 /* SightDetailViewController.swift */,
 			);
@@ -216,7 +216,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B55A6D6C28EF15ED000497C8 /* SightDetailViewModel.swift in Sources */,
-				B5ACD78628E5980600A5167C /* ViewController.swift in Sources */,
+				B5ACD78628E5980600A5167C /* MapViewController.swift in Sources */,
 				B5ACD78228E5980600A5167C /* AppDelegate.swift in Sources */,
 				B55A6D6828EF083B000497C8 /* SightsTableViewController.swift in Sources */,
 				B55A6D6A28EF131C000497C8 /* SightDetailViewController.swift in Sources */,

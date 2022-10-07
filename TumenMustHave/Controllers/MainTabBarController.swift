@@ -12,7 +12,7 @@ class MainTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let map = UINavigationController(rootViewController: ViewController())
+        let map = UINavigationController(rootViewController: MapViewController())
         let table = UINavigationController(rootViewController: SightsTableViewController())
         
         map.tabBarItem.title = "Map"

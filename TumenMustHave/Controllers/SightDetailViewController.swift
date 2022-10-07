@@ -6,10 +6,20 @@
 //
 
 import UIKit
+import MapKit
+
+protocol GetRouteDelegate {
+    func getRouteForMap(_ routes: [MKRoute])
+}
 
 class SightDetailViewController: UIViewController {
     
     private let scrollView: UIScrollView = UIScrollView()
+    
+    var sightCoordinate: CLLocationCoordinate2D?
+    var userCoordinate: CLLocationCoordinate2D?
+    
+    var delegate: GetRouteDelegate?
     
     private let sightImage: UIImageView = {
         let sightImage = UIImageView()
@@ -46,7 +56,7 @@ class SightDetailViewController: UIViewController {
         super.viewDidLoad()
 
         view.backgroundColor = .systemBackground
-        
+                
         view.addSubview(scrollView)
         scrollView.addSubview(sightImage)
         scrollView.addSubview(sightName)
@@ -64,11 +74,35 @@ class SightDetailViewController: UIViewController {
         sightImage.image = UIImage(named: model.name)
         sightName.text = model.name
         sightDescription.text = model.subtitle
+        sightCoordinate = model.coordinate
     }
     
     @objc private func getRoute() {
-        print("tapp")
+
+        let request = createDirectionsRequest(from: sightCoordinate!)
+        let directions = MKDirections(request: request)
+        
+        directions.calculate { [weak self] response, error in
+            guard let response = response else { print("unable to calculate"); return }
+
+            var routes = [MKRoute]()
+            
+            for route in response.routes {
+                routes.append(route)
+            }
+            
+            self?.delegate?.getRouteForMap(routes)
+        }
+        
         navigationController?.popViewController(animated: true)
+    }
+    
+    private func createDirectionsRequest(from coordinates: CLLocationCoordinate2D) -> MKDirections.Request {
+        let request = MKDirections.Request()
+        request.source = MKMapItem(placemark: MKPlacemark(coordinate: userCoordinate!))
+        request.destination = MKMapItem(placemark: MKPlacemark(coordinate: coordinates))
+        request.transportType = .walking
+        return request
     }
 
 }

@@ -6,8 +6,11 @@
 //
 
 import Foundation
+import MapKit
 
 struct SightDetail {
     let name: String
     let subtitle: String
+    
+    let coordinate: CLLocationCoordinate2D
 }

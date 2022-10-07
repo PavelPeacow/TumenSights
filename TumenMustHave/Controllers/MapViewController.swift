@@ -9,7 +9,7 @@ import UIKit
 import MapKit
 import CoreLocation
 
-class ViewController: UIViewController {
+class MapViewController: UIViewController {
     
     private var sights = JsonDecoder.shared.getJsonData() ?? []
     
@@ -80,7 +80,7 @@ class ViewController: UIViewController {
     
 }
 
-extension ViewController {
+extension MapViewController {
     
     func setConstraints() {
         NSLayoutConstraint.activate([
@@ -93,7 +93,7 @@ extension ViewController {
     
 }
 
-extension ViewController: MKMapViewDelegate {
+extension MapViewController: MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         guard annotation is SightOnMap else { return nil }
@@ -121,15 +121,17 @@ extension ViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         view.setSelected(false, animated: true)
         let sight = view.annotation as! SightOnMap
-        let sightDetail = SightDetail(name: sight.title!, subtitle: sight.subtitle!)
+        let sightDetail = SightDetail(name: sight.title!, subtitle: sight.subtitle!, coordinate: sight.coordinate)
         let vc = SightDetailViewController()
+        vc.delegate = self
+        vc.userCoordinate = userLocationManager.location?.coordinate
         vc.configure(with: sightDetail)
 
         navigationController?.pushViewController(vc, animated: true)
     }
 }
 
-extension ViewController: CLLocationManagerDelegate {
+extension MapViewController: CLLocationManagerDelegate {
     
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         let status = manager.authorizationStatus
@@ -164,4 +166,22 @@ extension ViewController: CLLocationManagerDelegate {
         print(error)
     }
     
+}
+
+extension MapViewController: GetRouteDelegate {
+    
+    func getRouteForMap(_ routes: [MKRoute]) {
+        mapView.removeOverlays(mapView.overlays)
+        
+        for route in routes {
+            mapView.addOverlay(route.polyline)
+            mapView.setVisibleMapRect(route.polyline.boundingMapRect, animated: true)
+        }
+    }
+    
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        let renderer = MKPolylineRenderer(overlay: overlay as! MKPolyline)
+        renderer.strokeColor = .green
+        return renderer
+    }
 }
