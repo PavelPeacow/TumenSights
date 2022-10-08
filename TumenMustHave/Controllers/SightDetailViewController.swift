@@ -9,7 +9,7 @@ import UIKit
 import MapKit
 
 protocol GetRouteDelegate {
-    func getRouteForMap(_ routes: [MKRoute])
+    func getSightCoordinates(_ coordinate: CLLocationCoordinate2D)
 }
 
 class SightDetailViewController: UIViewController {
@@ -17,7 +17,6 @@ class SightDetailViewController: UIViewController {
     private let scrollView: UIScrollView = UIScrollView()
     
     var sightCoordinate: CLLocationCoordinate2D?
-    var userCoordinate: CLLocationCoordinate2D?
     
     var delegate: GetRouteDelegate?
     
@@ -78,33 +77,12 @@ class SightDetailViewController: UIViewController {
     }
     
     @objc private func getRoute() {
-
-        let request = createDirectionsRequest(from: sightCoordinate!)
-        let directions = MKDirections(request: request)
-        
-        directions.calculate { [weak self] response, error in
-            guard let response = response else { print("unable to calculate"); return }
-
-            var routes = [MKRoute]()
-            
-            for route in response.routes {
-                routes.append(route)
-            }
-            
-            self?.delegate?.getRouteForMap(routes)
-        }
+        guard let sightCoordinate = sightCoordinate else { return }
+        delegate?.getSightCoordinates(sightCoordinate)
         
         navigationController?.popViewController(animated: true)
     }
     
-    private func createDirectionsRequest(from coordinates: CLLocationCoordinate2D) -> MKDirections.Request {
-        let request = MKDirections.Request()
-        request.source = MKMapItem(placemark: MKPlacemark(coordinate: userCoordinate!))
-        request.destination = MKMapItem(placemark: MKPlacemark(coordinate: coordinates))
-        request.transportType = .walking
-        return request
-    }
-
 }
 
 extension SightDetailViewController {

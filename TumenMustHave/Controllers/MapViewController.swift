@@ -12,13 +12,14 @@ import CoreLocation
 class MapViewController: UIViewController {
     
     private var sights = JsonDecoder.shared.getJsonData() ?? []
+    private var sightRouteCoordinate: CLLocationCoordinate2D?
     
     private let userLocationManager: CLLocationManager = {
         let locationManager = CLLocationManager()
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         return locationManager
     }()
-        
+    
     private let mapView: MKMapView = {
         let mapView = MKMapView()
         mapView.translatesAutoresizingMaskIntoConstraints = false
@@ -27,10 +28,13 @@ class MapViewController: UIViewController {
     
     private lazy var navBarItem = UIBarButtonItem(image: UIImage(systemName: "location.fill"), style: .done, target: self, action: #selector(requestUserLocation))
     
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .systemBackground
+        startMonitoringUserLocation()
         
         view.addSubview(mapView)
         
@@ -58,10 +62,17 @@ class MapViewController: UIViewController {
         mapView.setRegion(region, animated: true)
     }
     
+    private func startMonitoringUserLocation() {
+        if userLocationManager.authorizationStatus == .authorizedWhenInUse {
+            mapView.showsUserLocation = true
+            userLocationManager.startUpdatingLocation()
+        }
+    }
+    
     private func addAnnotationsToMap() {
         
         print(sights)
-
+        
         for sight in sights {
             let someSight = SightOnMap(title: sight.name, coordinate: CLLocationCoordinate2D(latitude: sight.latitude, longitude: sight.longitude), subtitle: sight.subtitle)
             mapView.addAnnotation(someSight)
@@ -76,6 +87,17 @@ class MapViewController: UIViewController {
         } else {
             showTurnUserLocationOnDeviceAlert()
         }
+    }
+    
+    private func createDirectionsRequest(from userCoordinate: CLLocationCoordinate2D, to coordinate: CLLocationCoordinate2D) -> MKDirections.Request {
+        let sourse = MKPlacemark(coordinate: userCoordinate)
+        let destination = MKPlacemark(coordinate: coordinate)
+        
+        let request = MKDirections.Request()
+        request.source = MKMapItem(placemark: sourse)
+        request.destination = MKMapItem(placemark: destination)
+        request.transportType = .walking
+        return request
     }
     
 }
@@ -121,13 +143,20 @@ extension MapViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         view.setSelected(false, animated: true)
         let sight = view.annotation as! SightOnMap
+        
         let sightDetail = SightDetail(name: sight.title!, subtitle: sight.subtitle!, coordinate: sight.coordinate)
+        
         let vc = SightDetailViewController()
         vc.delegate = self
-        vc.userCoordinate = userLocationManager.location?.coordinate
         vc.configure(with: sightDetail)
-
+        
         navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        let renderer = MKPolylineRenderer(overlay: overlay as! MKPolyline)
+        renderer.strokeColor = .green
+        return renderer
     }
 }
 
@@ -157,9 +186,29 @@ extension MapViewController: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        if let location = locations.first {
-            print(location)
+        guard let userLocation = locations.first?.coordinate else { return }
+        guard let sightCoordinate = sightRouteCoordinate else { return }
+        print(userLocation)
+        
+        let request = createDirectionsRequest(from: userLocation, to: sightCoordinate)
+        let directions = MKDirections(request: request)
+        
+        directions.calculate { [weak self] response, error in
+            guard let self = self else { return }
+            guard let response = response else {
+                print("unable to calculate")
+                return
+            }
+            
+            self.mapView.removeOverlays(self.mapView.overlays)
+            
+            for route in response.routes {
+                self.mapView.addOverlay(route.polyline)
+                self.mapView.setVisibleMapRect(route.polyline.boundingMapRect, animated: true)
+            }
+            
         }
+        
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
@@ -170,18 +219,7 @@ extension MapViewController: CLLocationManagerDelegate {
 
 extension MapViewController: GetRouteDelegate {
     
-    func getRouteForMap(_ routes: [MKRoute]) {
-        mapView.removeOverlays(mapView.overlays)
-        
-        for route in routes {
-            mapView.addOverlay(route.polyline)
-            mapView.setVisibleMapRect(route.polyline.boundingMapRect, animated: true)
-        }
-    }
-    
-    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-        let renderer = MKPolylineRenderer(overlay: overlay as! MKPolyline)
-        renderer.strokeColor = .green
-        return renderer
+    func getSightCoordinates(_ coordinate: CLLocationCoordinate2D) {
+        sightRouteCoordinate = coordinate
     }
 }
