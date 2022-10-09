@@ -40,6 +40,7 @@ class MapViewController: UIViewController {
         
         centerMapCamera()
         addAnnotationsToMap()
+        addCircleRadiusToAnnotations()
         
         setNavBar()
         setDelegates()
@@ -76,6 +77,14 @@ class MapViewController: UIViewController {
         for sight in sights {
             let someSight = SightOnMap(title: sight.name, coordinate: CLLocationCoordinate2D(latitude: sight.latitude, longitude: sight.longitude), subtitle: sight.subtitle)
             mapView.addAnnotation(someSight)
+        }
+    }
+    
+    private func addCircleRadiusToAnnotations() {
+        for sight in sights {
+            let center = CLLocationCoordinate2D(latitude: sight.latitude, longitude: sight.longitude)
+            let circle = MKCircle(center: center, radius: 80)
+            mapView.addOverlay(circle)
         }
     }
     
@@ -154,9 +163,22 @@ extension MapViewController: MKMapViewDelegate {
     }
     
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
-        let renderer = MKPolylineRenderer(overlay: overlay as! MKPolyline)
-        renderer.strokeColor = .green
-        return renderer
+        
+        if overlay.isKind(of: MKPolyline.self) {
+            let renderer = MKPolylineRenderer(overlay: overlay as! MKPolyline)
+            renderer.strokeColor = .green
+            return renderer
+        }
+        
+        if overlay.isKind(of: MKCircle.self) {
+            let circleRender = MKCircleRenderer(overlay: overlay as! MKCircle)
+            circleRender.fillColor = .blue
+            circleRender.alpha = 0.5
+            return circleRender
+        }
+        
+        return MKOverlayRenderer(overlay: overlay)
+        
     }
 }
 
@@ -200,7 +222,11 @@ extension MapViewController: CLLocationManagerDelegate {
                 return
             }
             
-            self.mapView.removeOverlays(self.mapView.overlays)
+            self.mapView.overlays.forEach {
+                if $0.isKind(of: MKPolyline.self) {
+                    self.mapView.removeOverlay($0)
+                }
+            }
             
             for route in response.routes {
                 self.mapView.addOverlay(route.polyline)
