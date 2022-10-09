@@ -14,7 +14,7 @@ class MapViewController: UIViewController {
     private var sights = JsonDecoder.shared.getJsonData() ?? []
     private var sightRouteCoordinate: CLLocationCoordinate2D?
     
-    private let userLocationManager: CLLocationManager = {
+    private let locationManager: CLLocationManager = {
         let locationManager = CLLocationManager()
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         return locationManager
@@ -26,15 +26,20 @@ class MapViewController: UIViewController {
         return mapView
     }()
     
-    private lazy var navBarItem = UIBarButtonItem(image: UIImage(systemName: "location.fill"), style: .done, target: self, action: #selector(requestUserLocation))
+    private lazy var stopMonitoringNavBarItem = UIBarButtonItem(image: UIImage(systemName: "location.fill"), style: .done, target: self, action: #selector(stopMonitoringUserLocation))
     
-
+    private lazy var startMonitoringNavBarItem = UIBarButtonItem(image: UIImage(systemName: "location.slash.fill"), style: .done, target: self, action: #selector(startMonitoringUserLocation))
+    
+    private lazy var cancelCurrentRouteNavBarItem = UIBarButtonItem(image: UIImage(systemName: "x.circle.fill"), style: .done, target: self, action: #selector(cancelCurrentRoute))
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .systemBackground
-        startMonitoringUserLocation()
+        
+        if locationManager.authorizationStatus == .authorizedWhenInUse || locationManager.authorizationStatus == .authorizedAlways {
+            stopMonitoringUserLocation()
+        }
         
         view.addSubview(mapView)
         
@@ -49,11 +54,15 @@ class MapViewController: UIViewController {
     
     private func setDelegates() {
         mapView.delegate = self
-        userLocationManager.delegate = self
+        locationManager.delegate = self
     }
     
     private func setNavBar() {
-        navigationItem.rightBarButtonItem = navBarItem
+        if locationManager.authorizationStatus != .authorizedWhenInUse || locationManager.authorizationStatus != .authorizedAlways {
+            navigationItem.rightBarButtonItem = startMonitoringNavBarItem
+        } else {
+            navigationItem.rightBarButtonItem = stopMonitoringNavBarItem
+        }
     }
     
     private func centerMapCamera() {
@@ -63,15 +72,36 @@ class MapViewController: UIViewController {
         mapView.setRegion(region, animated: true)
     }
     
-    private func startMonitoringUserLocation() {
-        if userLocationManager.authorizationStatus == .authorizedWhenInUse {
-            mapView.showsUserLocation = true
-            userLocationManager.startUpdatingLocation()
+    @objc private func startMonitoringUserLocation() {
+        guard locationManager.authorizationStatus == .authorizedWhenInUse || locationManager.authorizationStatus == .authorizedAlways else {
+            requestUserLocation()
+            return
+        }
+        
+        mapView.showsUserLocation = true
+        locationManager.startUpdatingLocation()
+        navigationItem.rightBarButtonItem = stopMonitoringNavBarItem
+    }
+    
+    @objc private func stopMonitoringUserLocation() {
+        mapView.showsUserLocation = false
+        locationManager.stopUpdatingLocation()
+        cancelCurrentRoute()
+        navigationItem.rightBarButtonItem = startMonitoringNavBarItem
+    }
+    
+    @objc private func cancelCurrentRoute() {
+        sightRouteCoordinate = nil
+        navigationItem.leftBarButtonItem = nil
+        
+        self.mapView.overlays.forEach {
+            if $0.isKind(of: MKPolyline.self) {
+                self.mapView.removeOverlay($0)
+            }
         }
     }
     
     private func addAnnotationsToMap() {
-        
         print(sights)
         
         for sight in sights {
@@ -88,14 +118,15 @@ class MapViewController: UIViewController {
         }
     }
     
-    @objc private func requestUserLocation() {
-        if CLLocationManager.locationServicesEnabled() {
-            userLocationManager.requestWhenInUseAuthorization()
-            locationManagerDidChangeAuthorization(userLocationManager)
-            print("peremoga")
-        } else {
+    private func requestUserLocation() {
+        guard CLLocationManager.locationServicesEnabled() else {
             showTurnUserLocationOnDeviceAlert()
+            return
         }
+        
+        locationManager.requestWhenInUseAuthorization()
+        locationManagerDidChangeAuthorization(locationManager)
+        print("peremoga")
     }
     
     private func createDirectionsRequest(from userCoordinate: CLLocationCoordinate2D, to coordinate: CLLocationCoordinate2D) -> MKDirections.Request {
@@ -107,6 +138,17 @@ class MapViewController: UIViewController {
         request.destination = MKMapItem(placemark: destination)
         request.transportType = .walking
         return request
+    }
+    
+    private func pushSightDetailView(with sight: SightOnMap) {
+        
+        let sightDetail = SightDetail(name: sight.title!, subtitle: sight.subtitle!, coordinate: sight.coordinate)
+        
+        let vc = SightDetailViewController()
+        vc.delegate = self
+        vc.configure(with: sightDetail)
+        
+        navigationController?.pushViewController(vc, animated: true)
     }
     
 }
@@ -153,13 +195,7 @@ extension MapViewController: MKMapViewDelegate {
         view.setSelected(false, animated: true)
         let sight = view.annotation as! SightOnMap
         
-        let sightDetail = SightDetail(name: sight.title!, subtitle: sight.subtitle!, coordinate: sight.coordinate)
-        
-        let vc = SightDetailViewController()
-        vc.delegate = self
-        vc.configure(with: sightDetail)
-        
-        navigationController?.pushViewController(vc, animated: true)
+        pushSightDetailView(with: sight)
     }
     
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
@@ -189,18 +225,22 @@ extension MapViewController: CLLocationManagerDelegate {
         
         switch status {
         case .notDetermined:
-            userLocationManager.requestWhenInUseAuthorization()
             print("notDetermined")
         case .restricted:
             print("restricted")
         case .denied:
             showTurnUserLocationOnDeviceAlert()
+            navigationItem.rightBarButtonItem = startMonitoringNavBarItem
             print("denied")
         case .authorizedAlways:
+            mapView.showsUserLocation = true
+            locationManager.startUpdatingLocation()
+            navigationItem.rightBarButtonItem = stopMonitoringNavBarItem
             print("authorizedAlways")
         case .authorizedWhenInUse:
             mapView.showsUserLocation = true
-            userLocationManager.startUpdatingLocation()
+            locationManager.startUpdatingLocation()
+            navigationItem.rightBarButtonItem = stopMonitoringNavBarItem
             print("authorizedWhenInUse")
         @unknown default:
             print("new status")
@@ -247,5 +287,6 @@ extension MapViewController: GetRouteDelegate {
     
     func getSightCoordinates(_ coordinate: CLLocationCoordinate2D) {
         sightRouteCoordinate = coordinate
+        navigationItem.leftBarButtonItem = cancelCurrentRouteNavBarItem
     }
 }
