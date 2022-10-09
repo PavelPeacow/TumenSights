@@ -46,7 +46,7 @@ class SightDetailViewController: UIViewController {
     private lazy var getRouteButton: UIButton = {
         let getRouteButton = UIButton(configuration: UIButton.Configuration.bordered())
         getRouteButton.translatesAutoresizingMaskIntoConstraints = false
-        getRouteButton.setTitle("Построит маршрут", for: .normal)
+        getRouteButton.setTitle("Построить маршрут", for: .normal)
         getRouteButton.addTarget(self, action: #selector(getRoute), for: .touchUpInside)
         return getRouteButton
     }()

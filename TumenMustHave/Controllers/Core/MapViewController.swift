@@ -273,6 +273,8 @@ extension MapViewController: CLLocationManagerDelegate {
                 self.mapView.setVisibleMapRect(route.polyline.boundingMapRect, animated: true)
             }
             
+            self.navigationItem.leftBarButtonItem = self.cancelCurrentRouteNavBarItem
+            
         }
         
     }
@@ -287,6 +289,5 @@ extension MapViewController: GetRouteDelegate {
     
     func getSightCoordinates(_ coordinate: CLLocationCoordinate2D) {
         sightRouteCoordinate = coordinate
-        navigationItem.leftBarButtonItem = cancelCurrentRouteNavBarItem
     }
 }

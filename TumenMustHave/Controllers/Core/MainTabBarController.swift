@@ -15,10 +15,10 @@ class MainTabBarController: UITabBarController {
         let map = UINavigationController(rootViewController: MapViewController())
         let table = UINavigationController(rootViewController: SightsTableViewController())
         
-        map.tabBarItem.title = "Map"
+        map.tabBarItem.title = "Карта"
         map.tabBarItem.image = UIImage(systemName: "map")
         
-        table.tabBarItem.title = "Sights"
+        table.tabBarItem.title = "Посещенные места"
         table.tabBarItem.image = UIImage(systemName: "list.dash")
         
         tabBarController?.tabBar.tintColor = .systemBackground
