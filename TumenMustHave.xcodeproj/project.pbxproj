@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B5438ECC28F323CB00EC54BE /* SightTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5438ECB28F323CB00EC54BE /* SightTableViewCell.swift */; };
 		B5585FEB28F038BC001E45E9 /* Alerts.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5585FEA28F038BC001E45E9 /* Alerts.swift */; };
 		B55A6D6328EEF20B000497C8 /* JsonDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55A6D6228EEF20B000497C8 /* JsonDecoder.swift */; };
 		B55A6D6628EF012D000497C8 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55A6D6528EF012D000497C8 /* MainTabBarController.swift */; };
@@ -24,6 +25,7 @@
 
 /* Begin PBXFileReference section */
 		B50EADF428E60B0B00A099D1 /* SightCollection.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = SightCollection.json; sourceTree = "<group>"; };
+		B5438ECB28F323CB00EC54BE /* SightTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SightTableViewCell.swift; sourceTree = "<group>"; };
 		B5585FEA28F038BC001E45E9 /* Alerts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alerts.swift; sourceTree = "<group>"; };
 		B55A6D6228EEF20B000497C8 /* JsonDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonDecoder.swift; sourceTree = "<group>"; };
 		B55A6D6528EF012D000497C8 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
@@ -51,6 +53,32 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B5438ECD28F3257400EC54BE /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				B5438ECB28F323CB00EC54BE /* SightTableViewCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		B5438ECE28F3258900EC54BE /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				B55A6D6528EF012D000497C8 /* MainTabBarController.swift */,
+				B5ACD78528E5980600A5167C /* MapViewController.swift */,
+				B55A6D6728EF083B000497C8 /* SightsTableViewController.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		B5438ECF28F3258F00EC54BE /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				B55A6D6928EF131C000497C8 /* SightDetailViewController.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
 		B5585FEC28F038C0001E45E9 /* Alerts */ = {
 			isa = PBXGroup;
 			children = (
@@ -100,6 +128,7 @@
 				B5ACD79E28E59ABA00A5167C /* Model */,
 				B55A6D6D28EF15F0000497C8 /* ViewModel */,
 				B5585FEC28F038C0001E45E9 /* Alerts */,
+				B5438ECD28F3257400EC54BE /* Cell */,
 				B5ACD79B28E5997B00A5167C /* Controllers */,
 				B5ACD78A28E5980600A5167C /* Assets.xcassets */,
 				B5ACD78F28E5980600A5167C /* Info.plist */,
@@ -128,10 +157,8 @@
 		B5ACD79B28E5997B00A5167C /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				B55A6D6528EF012D000497C8 /* MainTabBarController.swift */,
-				B5ACD78528E5980600A5167C /* MapViewController.swift */,
-				B55A6D6728EF083B000497C8 /* SightsTableViewController.swift */,
-				B55A6D6928EF131C000497C8 /* SightDetailViewController.swift */,
+				B5438ECF28F3258F00EC54BE /* Main */,
+				B5438ECE28F3258900EC54BE /* Core */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -218,6 +245,7 @@
 				B55A6D6C28EF15ED000497C8 /* SightDetailViewModel.swift in Sources */,
 				B5ACD78628E5980600A5167C /* MapViewController.swift in Sources */,
 				B5ACD78228E5980600A5167C /* AppDelegate.swift in Sources */,
+				B5438ECC28F323CB00EC54BE /* SightTableViewCell.swift in Sources */,
 				B55A6D6828EF083B000497C8 /* SightsTableViewController.swift in Sources */,
 				B55A6D6A28EF131C000497C8 /* SightDetailViewController.swift in Sources */,
 				B55A6D6628EF012D000497C8 /* MainTabBarController.swift in Sources */,

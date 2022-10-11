@@ -26,6 +26,26 @@ class MapViewController: UIViewController {
         return mapView
     }()
     
+    private let startRouteBtn: UIButton = {
+        let startRouteBtn = UIButton(configuration: UIButton.Configuration.filled())
+        startRouteBtn.translatesAutoresizingMaskIntoConstraints = false
+        startRouteBtn.setTitle("Начать маршрут", for: .normal)
+        startRouteBtn.tintColor = .systemGreen
+//        startRouteBtn.titleLabel?.adjustsFontSizeToFitWidth = true
+//        startRouteBtn.isHidden = true
+        return startRouteBtn
+    }()
+    
+    private let cancelRouteBtn: UIButton = {
+        let cancelRouteBtn = UIButton(configuration: UIButton.Configuration.filled())
+        cancelRouteBtn.translatesAutoresizingMaskIntoConstraints = false
+        cancelRouteBtn.setTitle("Отменить маршрут", for: .normal)
+        cancelRouteBtn.tintColor = .systemRed
+//        cancelRouteBtn.titleLabel?.adjustsFontSizeToFitWidth = true
+//        cancelRouteBtn.isHidden = true
+        return cancelRouteBtn
+    }()
+    
     private lazy var stopMonitoringNavBarItem = UIBarButtonItem(image: UIImage(systemName: "location.fill"), style: .done, target: self, action: #selector(stopMonitoringUserLocation))
     
     private lazy var startMonitoringNavBarItem = UIBarButtonItem(image: UIImage(systemName: "location.slash.fill"), style: .done, target: self, action: #selector(startMonitoringUserLocation))
@@ -42,6 +62,9 @@ class MapViewController: UIViewController {
         }
         
         view.addSubview(mapView)
+        
+        view.addSubview(startRouteBtn)
+        view.addSubview(cancelRouteBtn)
         
         centerMapCamera()
         addAnnotationsToMap()
@@ -140,6 +163,14 @@ class MapViewController: UIViewController {
         return request
     }
     
+    private func calculateDistance(userCoordinate: CLLocationCoordinate2D, sightCoordinate: CLLocationCoordinate2D) -> CLLocationDistance {
+        let userLocation = CLLocation(latitude: userCoordinate.latitude, longitude: userCoordinate.longitude)
+        let sightLocation = CLLocation(latitude: sightCoordinate.latitude, longitude: sightCoordinate.longitude)
+        
+        let distanse = userLocation.distance(from: sightLocation)
+        return distanse
+    }
+    
     private func pushSightDetailView(with sight: SightOnMap) {
         
         let sightDetail = SightDetail(name: sight.title!, subtitle: sight.subtitle!, coordinate: sight.coordinate)
@@ -160,7 +191,17 @@ extension MapViewController {
             mapView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             mapView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             mapView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            mapView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            mapView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            
+            cancelRouteBtn.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 15),
+            cancelRouteBtn.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -35),
+            cancelRouteBtn.heightAnchor.constraint(equalToConstant: 40),
+            cancelRouteBtn.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.4),
+            
+            startRouteBtn.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -15),
+            startRouteBtn.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -35),
+            startRouteBtn.heightAnchor.constraint(equalToConstant: 40),
+            startRouteBtn.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.4),
         ])
     }
     
@@ -248,12 +289,22 @@ extension MapViewController: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let userLocation = locations.first?.coordinate else { return }
+        guard let userCoordinate = locations.first?.coordinate else { return }
         guard let sightCoordinate = sightRouteCoordinate else { return }
-        print(userLocation)
+        print(userCoordinate)
         
-        let request = createDirectionsRequest(from: userLocation, to: sightCoordinate)
+        let request = createDirectionsRequest(from: userCoordinate, to: sightCoordinate)
         let directions = MKDirections(request: request)
+        
+        let distance = calculateDistance(userCoordinate: userCoordinate, sightCoordinate: sightCoordinate)
+        
+        print(distance)
+        
+        if distance <= 80 {
+            print("you get to sight safe and sound")
+            cancelCurrentRoute()
+            return
+        }
         
         directions.calculate { [weak self] response, error in
             guard let self = self else { return }
