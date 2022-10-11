@@ -15,6 +15,7 @@ class MapViewController: UIViewController {
     private var sightRouteCoordinate: CLLocationCoordinate2D?
     
     private var didStartRoute = false
+    private var isCenteringModeOn = false
     
     private let locationManager: CLLocationManager = {
         let locationManager = CLLocationManager()
@@ -48,6 +49,19 @@ class MapViewController: UIViewController {
         return cancelRouteBtn
     }()
     
+    private lazy var toggleRouteMonitoringModeBtn: UIButton = {
+        let toggleRouteMonitoringModeBtn = UIButton()
+        toggleRouteMonitoringModeBtn.translatesAutoresizingMaskIntoConstraints = false
+        toggleRouteMonitoringModeBtn.addTarget(self, action: #selector(toggleRouteMonitoringMode(_:)), for: .touchUpInside)
+        toggleRouteMonitoringModeBtn.setImage(UIImage(systemName: "location.fill"), for: .normal)
+        toggleRouteMonitoringModeBtn.layer.borderWidth = 2
+        toggleRouteMonitoringModeBtn.backgroundColor = .systemBackground
+        toggleRouteMonitoringModeBtn.clipsToBounds = true
+        toggleRouteMonitoringModeBtn.layer.cornerRadius = 20
+        toggleRouteMonitoringModeBtn.isHidden = true
+        return toggleRouteMonitoringModeBtn
+    }()
+    
     private lazy var stopMonitoringNavBarItem = UIBarButtonItem(image: UIImage(systemName: "location.fill"), style: .done, target: self, action: #selector(stopMonitoringUserLocation))
     
     private lazy var startMonitoringNavBarItem = UIBarButtonItem(image: UIImage(systemName: "location.slash.fill"), style: .done, target: self, action: #selector(startMonitoringUserLocation))
@@ -67,6 +81,7 @@ class MapViewController: UIViewController {
         
         view.addSubview(startRouteBtn)
         view.addSubview(cancelRouteBtn)
+        view.addSubview(toggleRouteMonitoringModeBtn)
         
         centerMapCamera()
         addAnnotationsToMap()
@@ -115,8 +130,19 @@ class MapViewController: UIViewController {
         navigationItem.rightBarButtonItem = startMonitoringNavBarItem
     }
     
+    @objc private func toggleRouteMonitoringMode(_ sender: UIButton) {
+        isCenteringModeOn.toggle()
+        
+        if isCenteringModeOn {
+            sender.setImage(UIImage(systemName: "location.north.line.fill"), for: .normal)
+        } else {
+            sender.setImage(UIImage(systemName: "location.fill"), for: .normal)
+        }
+    }
+    
     @objc private func cancelCurrentRoute() {
         didStartRoute = false
+        toggleRouteMonitoringModeBtn.isHidden = true
         sightRouteCoordinate = nil
         navigationItem.leftBarButtonItem = nil
         
@@ -129,6 +155,7 @@ class MapViewController: UIViewController {
     
     @objc private func didTappStartRouteBtn() {
         didStartRoute = true
+        toggleRouteMonitoringModeBtn.isHidden = false
         startRouteBtn.isHidden = true
         cancelRouteBtn.isHidden = true
         navigationItem.leftBarButtonItem = cancelCurrentRouteNavBarItem
@@ -218,7 +245,7 @@ class MapViewController: UIViewController {
             for route in response.routes {
                 self.mapView.addOverlay(route.polyline)
                 
-                if !self.didStartRoute {
+                if !self.didStartRoute  {
                     self.mapView.setVisibleMapRect(route.polyline.boundingMapRect, animated: true)
                 }
                 
@@ -228,8 +255,9 @@ class MapViewController: UIViewController {
     }
     
     private func centerMapOnUserLocation(with userCoordinate: CLLocationCoordinate2D) {
+        guard isCenteringModeOn else { return }
         let center = CLLocationCoordinate2D(latitude: userCoordinate.latitude, longitude: userCoordinate.longitude)
-        let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
+        let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005))
         mapView.setRegion(region, animated: true)
     }
     
@@ -243,6 +271,11 @@ extension MapViewController {
             mapView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             mapView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             mapView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            
+            toggleRouteMonitoringModeBtn.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 25),
+            toggleRouteMonitoringModeBtn.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -25),
+            toggleRouteMonitoringModeBtn.heightAnchor.constraint(equalToConstant: 40),
+            toggleRouteMonitoringModeBtn.widthAnchor.constraint(equalToConstant: 40),
             
             cancelRouteBtn.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 15),
             cancelRouteBtn.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -35),
@@ -342,7 +375,6 @@ extension MapViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let userCoordinate = locations.first?.coordinate else { return }
         guard let sightCoordinate = sightRouteCoordinate else { return }
-        guard didStartRoute else { return }
         
         print(userCoordinate)
         
@@ -357,8 +389,8 @@ extension MapViewController: CLLocationManagerDelegate {
             return
         }
         
-        calculateDirectionRoute(with: request)
         centerMapOnUserLocation(with: userCoordinate)
+        calculateDirectionRoute(with: request)
         
     }
     
@@ -371,6 +403,7 @@ extension MapViewController: CLLocationManagerDelegate {
 extension MapViewController: GetRouteDelegate {
     
     func getSightCoordinates(_ coordinate: CLLocationCoordinate2D) {
+        guard mapView.showsUserLocation else { return }
         guard let userCoordinate = locationManager.location?.coordinate else { return }
         cancelCurrentRoute()
         sightRouteCoordinate = coordinate
