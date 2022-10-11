@@ -14,6 +14,8 @@ class MapViewController: UIViewController {
     private var sights = JsonDecoder.shared.getJsonData() ?? []
     private var sightRouteCoordinate: CLLocationCoordinate2D?
     
+    private var didStartRoute = false
+    
     private let locationManager: CLLocationManager = {
         let locationManager = CLLocationManager()
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
@@ -26,23 +28,23 @@ class MapViewController: UIViewController {
         return mapView
     }()
     
-    private let startRouteBtn: UIButton = {
+    private lazy var startRouteBtn: UIButton = {
         let startRouteBtn = UIButton(configuration: UIButton.Configuration.filled())
         startRouteBtn.translatesAutoresizingMaskIntoConstraints = false
         startRouteBtn.setTitle("Начать маршрут", for: .normal)
         startRouteBtn.tintColor = .systemGreen
-//        startRouteBtn.titleLabel?.adjustsFontSizeToFitWidth = true
-//        startRouteBtn.isHidden = true
+        startRouteBtn.addTarget(self, action: #selector(didTappStartRouteBtn), for: .touchUpInside)
+        startRouteBtn.isHidden = true
         return startRouteBtn
     }()
     
-    private let cancelRouteBtn: UIButton = {
+    private lazy var cancelRouteBtn: UIButton = {
         let cancelRouteBtn = UIButton(configuration: UIButton.Configuration.filled())
         cancelRouteBtn.translatesAutoresizingMaskIntoConstraints = false
         cancelRouteBtn.setTitle("Отменить маршрут", for: .normal)
         cancelRouteBtn.tintColor = .systemRed
-//        cancelRouteBtn.titleLabel?.adjustsFontSizeToFitWidth = true
-//        cancelRouteBtn.isHidden = true
+        cancelRouteBtn.addTarget(self, action: #selector(didTappCancelRouteBtn), for: .touchUpInside)
+        cancelRouteBtn.isHidden = true
         return cancelRouteBtn
     }()
     
@@ -114,6 +116,7 @@ class MapViewController: UIViewController {
     }
     
     @objc private func cancelCurrentRoute() {
+        didStartRoute = false
         sightRouteCoordinate = nil
         navigationItem.leftBarButtonItem = nil
         
@@ -122,6 +125,19 @@ class MapViewController: UIViewController {
                 self.mapView.removeOverlay($0)
             }
         }
+    }
+    
+    @objc private func didTappStartRouteBtn() {
+        didStartRoute = true
+        startRouteBtn.isHidden = true
+        cancelRouteBtn.isHidden = true
+        navigationItem.leftBarButtonItem = cancelCurrentRouteNavBarItem
+    }
+    
+    @objc private func didTappCancelRouteBtn() {
+        cancelCurrentRoute()
+        startRouteBtn.isHidden = true
+        cancelRouteBtn.isHidden = true
     }
     
     private func addAnnotationsToMap() {
@@ -180,6 +196,41 @@ class MapViewController: UIViewController {
         vc.configure(with: sightDetail)
         
         navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    private func calculateDirectionRoute(with request: MKDirections.Request) {
+        let request = request
+        let directions = MKDirections(request: request)
+        
+        directions.calculate { [weak self] response, error in
+            guard let self = self else { return }
+            guard let response = response else {
+                print("unable to calculate")
+                return
+            }
+            
+            self.mapView.overlays.forEach {
+                if $0.isKind(of: MKPolyline.self) {
+                    self.mapView.removeOverlay($0)
+                }
+            }
+            
+            for route in response.routes {
+                self.mapView.addOverlay(route.polyline)
+                
+                if !self.didStartRoute {
+                    self.mapView.setVisibleMapRect(route.polyline.boundingMapRect, animated: true)
+                }
+                
+            }
+            
+        }
+    }
+    
+    private func centerMapOnUserLocation(with userCoordinate: CLLocationCoordinate2D) {
+        let center = CLLocationCoordinate2D(latitude: userCoordinate.latitude, longitude: userCoordinate.longitude)
+        let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
+        mapView.setRegion(region, animated: true)
     }
     
 }
@@ -287,15 +338,15 @@ extension MapViewController: CLLocationManagerDelegate {
             print("new status")
         }
     }
-    
+            
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let userCoordinate = locations.first?.coordinate else { return }
         guard let sightCoordinate = sightRouteCoordinate else { return }
+        guard didStartRoute else { return }
+        
         print(userCoordinate)
         
         let request = createDirectionsRequest(from: userCoordinate, to: sightCoordinate)
-        let directions = MKDirections(request: request)
-        
         let distance = calculateDistance(userCoordinate: userCoordinate, sightCoordinate: sightCoordinate)
         
         print(distance)
@@ -306,27 +357,8 @@ extension MapViewController: CLLocationManagerDelegate {
             return
         }
         
-        directions.calculate { [weak self] response, error in
-            guard let self = self else { return }
-            guard let response = response else {
-                print("unable to calculate")
-                return
-            }
-            
-            self.mapView.overlays.forEach {
-                if $0.isKind(of: MKPolyline.self) {
-                    self.mapView.removeOverlay($0)
-                }
-            }
-            
-            for route in response.routes {
-                self.mapView.addOverlay(route.polyline)
-                self.mapView.setVisibleMapRect(route.polyline.boundingMapRect, animated: true)
-            }
-            
-            self.navigationItem.leftBarButtonItem = self.cancelCurrentRouteNavBarItem
-            
-        }
+        calculateDirectionRoute(with: request)
+        centerMapOnUserLocation(with: userCoordinate)
         
     }
     
@@ -339,6 +371,14 @@ extension MapViewController: CLLocationManagerDelegate {
 extension MapViewController: GetRouteDelegate {
     
     func getSightCoordinates(_ coordinate: CLLocationCoordinate2D) {
+        guard let userCoordinate = locationManager.location?.coordinate else { return }
+        cancelCurrentRoute()
         sightRouteCoordinate = coordinate
+        
+        let request = createDirectionsRequest(from: userCoordinate, to: sightRouteCoordinate!)
+        calculateDirectionRoute(with: request)
+        
+        startRouteBtn.isHidden = false
+        cancelRouteBtn.isHidden = false
     }
 }
