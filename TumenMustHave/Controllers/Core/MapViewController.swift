@@ -131,9 +131,11 @@ class MapViewController: UIViewController {
     }
     
     @objc private func toggleRouteMonitoringMode(_ sender: UIButton) {
+        guard let userCoordinate = locationManager.location?.coordinate else { return }
         isCenteringModeOn.toggle()
         
         if isCenteringModeOn {
+            centerMapOnUserLocation(with: userCoordinate)
             sender.setImage(UIImage(systemName: "location.north.line.fill"), for: .normal)
         } else {
             sender.setImage(UIImage(systemName: "location.fill"), for: .normal)
@@ -273,7 +275,7 @@ extension MapViewController {
             mapView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             
             toggleRouteMonitoringModeBtn.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 25),
-            toggleRouteMonitoringModeBtn.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -25),
+            toggleRouteMonitoringModeBtn.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 25),
             toggleRouteMonitoringModeBtn.heightAnchor.constraint(equalToConstant: 40),
             toggleRouteMonitoringModeBtn.widthAnchor.constraint(equalToConstant: 40),
             
@@ -317,7 +319,7 @@ extension MapViewController: MKMapViewDelegate {
     }
     
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-        view.setSelected(false, animated: true)
+        mapView.deselectAnnotation(view.annotation, animated: true)
         let sight = view.annotation as! SightOnMap
         
         pushSightDetailView(with: sight)
