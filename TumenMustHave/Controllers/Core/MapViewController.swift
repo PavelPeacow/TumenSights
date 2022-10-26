@@ -25,8 +25,21 @@ class MapViewController: UIViewController {
     
     let mapView: MKMapView = {
         let mapView = MKMapView()
+        mapView.showsUserLocation = true
         mapView.translatesAutoresizingMaskIntoConstraints = false
         return mapView
+    }()
+    
+    private lazy var turnOnLocationServicesBtn: UIButton = {
+        var configuration = UIButton.Configuration.plain()
+        configuration.imagePlacement = .trailing
+        configuration.imagePadding = 5
+        
+        let turnOnLocationServicesBtn = UIButton(configuration: configuration)
+        turnOnLocationServicesBtn.setTitle("Turn on location services", for: .normal)
+        turnOnLocationServicesBtn.setImage(UIImage(systemName: "arrowtriangle.right.fill"), for: .normal)
+        turnOnLocationServicesBtn.addTarget(self, action: #selector(requestUserLocation), for: .touchUpInside)
+        return turnOnLocationServicesBtn
     }()
     
     private lazy var startRouteBtn: UIButton = {
@@ -62,10 +75,6 @@ class MapViewController: UIViewController {
         return toggleRouteMonitoringModeBtn
     }()
     
-    private lazy var stopMonitoringNavBarItem = UIBarButtonItem(image: UIImage(systemName: "location.fill"), style: .done, target: self, action: #selector(stopMonitoringUserLocation))
-    
-    private lazy var startMonitoringNavBarItem = UIBarButtonItem(image: UIImage(systemName: "location.slash.fill"), style: .done, target: self, action: #selector(startMonitoringUserLocation))
-    
     private lazy var cancelCurrentRouteNavBarItem = UIBarButtonItem(image: UIImage(systemName: "x.circle.fill"), style: .done, target: self, action: #selector(cancelCurrentRoute))
     
     override func viewDidLoad() {
@@ -73,9 +82,7 @@ class MapViewController: UIViewController {
         
         view.backgroundColor = .systemBackground
         
-        if locationManager.authorizationStatus == .authorizedWhenInUse || locationManager.authorizationStatus == .authorizedAlways {
-            stopMonitoringUserLocation()
-        }
+        locationManager.requestWhenInUseAuthorization()
         
         view.addSubview(mapView)
         
@@ -98,29 +105,12 @@ class MapViewController: UIViewController {
     }
     
     private func setNavBar() {
-        if locationManager.authorizationStatus != .authorizedWhenInUse || locationManager.authorizationStatus != .authorizedAlways {
-            navigationItem.rightBarButtonItem = startMonitoringNavBarItem
-        } else {
-            navigationItem.rightBarButtonItem = stopMonitoringNavBarItem
-        }
-    }
-        
-    @objc private func startMonitoringUserLocation() {
         guard locationManager.authorizationStatus == .authorizedWhenInUse || locationManager.authorizationStatus == .authorizedAlways else {
-            requestUserLocation()
+            navigationItem.titleView = turnOnLocationServicesBtn
             return
         }
         
-        mapView.showsUserLocation = true
-        locationManager.startUpdatingLocation()
-        navigationItem.rightBarButtonItem = stopMonitoringNavBarItem
-    }
-    
-    @objc private func stopMonitoringUserLocation() {
-        mapView.showsUserLocation = false
-        locationManager.stopUpdatingLocation()
-        cancelCurrentRoute()
-        navigationItem.rightBarButtonItem = startMonitoringNavBarItem
+        navigationItem.titleView = nil
     }
     
     @objc private func toggleRouteMonitoringMode(_ sender: UIButton) {
@@ -162,7 +152,7 @@ class MapViewController: UIViewController {
         cancelRouteBtn.isHidden = true
     }
     
-    private func requestUserLocation() {
+    @objc private func requestUserLocation() {
         guard CLLocationManager.locationServicesEnabled() else {
             showTurnUserLocationOnDeviceAlert()
             return
@@ -174,7 +164,6 @@ class MapViewController: UIViewController {
     }
     
     private func pushSightDetailView(with sight: SightOnMap) {
-        
         let sightDetail = SightDetail(name: sight.title!, subtitle: sight.subtitle!, coordinate: sight.coordinate)
         
         let vc = SightDetailViewController()
@@ -217,7 +206,7 @@ extension MapViewController {
 extension MapViewController: MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        guard annotation is SightOnMap else { return nil }
+        guard annotation is SightOnMap else { return MKAnnotationView() }
         
         let identifier = "Sight"
         
@@ -273,23 +262,27 @@ extension MapViewController: CLLocationManagerDelegate {
         
         switch status {
         case .notDetermined:
+            
+            locationManager.requestWhenInUseAuthorization()
+            navigationItem.titleView = turnOnLocationServicesBtn
             print("notDetermined")
+            
         case .restricted:
+            
             print("restricted")
+            
         case .denied:
+            
             showTurnUserLocationOnDeviceAlert()
-            navigationItem.rightBarButtonItem = startMonitoringNavBarItem
+            navigationItem.titleView = turnOnLocationServicesBtn
             print("denied")
-        case .authorizedAlways:
-            mapView.showsUserLocation = true
+            
+        case .authorizedAlways, .authorizedWhenInUse:
+            
+            navigationItem.titleView = nil
             locationManager.startUpdatingLocation()
-            navigationItem.rightBarButtonItem = stopMonitoringNavBarItem
-            print("authorizedAlways")
-        case .authorizedWhenInUse:
-            mapView.showsUserLocation = true
-            locationManager.startUpdatingLocation()
-            navigationItem.rightBarButtonItem = stopMonitoringNavBarItem
-            print("authorizedWhenInUse")
+            print("authorizedAlways or authorizedWhenInUse")
+            
         @unknown default:
             print("new status")
         }

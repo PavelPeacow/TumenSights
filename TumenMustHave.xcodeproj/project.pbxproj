@@ -109,14 +109,14 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
-		B5A88CEF2909680400FA091D /* Helpers */ = {
+		B5A88CEF2909680400FA091D /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
 				B5A88CF02909682C00FA091D /* Annotations.swift */,
 				B5A88CF2290968CE00FA091D /* Directions.swift */,
 				B5A88CF42909698700FA091D /* MapCamera.swift */,
 			);
-			path = Helpers;
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		B5ACD77528E5980600A5167C = {
@@ -145,7 +145,7 @@
 				B55A6D6D28EF15F0000497C8 /* ViewModel */,
 				B5585FEC28F038C0001E45E9 /* Alerts */,
 				B5438ECD28F3257400EC54BE /* Cell */,
-				B5A88CEF2909680400FA091D /* Helpers */,
+				B5A88CEF2909680400FA091D /* Extensions */,
 				B5ACD79B28E5997B00A5167C /* Controllers */,
 				B5ACD78A28E5980600A5167C /* Assets.xcassets */,
 				B5ACD78F28E5980600A5167C /* Info.plist */,
