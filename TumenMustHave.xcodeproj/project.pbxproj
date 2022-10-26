@@ -14,6 +14,9 @@
 		B55A6D6828EF083B000497C8 /* SightsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55A6D6728EF083B000497C8 /* SightsTableViewController.swift */; };
 		B55A6D6A28EF131C000497C8 /* SightDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55A6D6928EF131C000497C8 /* SightDetailViewController.swift */; };
 		B55A6D6C28EF15ED000497C8 /* SightDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55A6D6B28EF15ED000497C8 /* SightDetailViewModel.swift */; };
+		B5A88CF12909682C00FA091D /* Annotations.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A88CF02909682C00FA091D /* Annotations.swift */; };
+		B5A88CF3290968CE00FA091D /* Directions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A88CF2290968CE00FA091D /* Directions.swift */; };
+		B5A88CF52909698700FA091D /* MapCamera.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A88CF42909698700FA091D /* MapCamera.swift */; };
 		B5ACD78228E5980600A5167C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5ACD78128E5980600A5167C /* AppDelegate.swift */; };
 		B5ACD78428E5980600A5167C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5ACD78328E5980600A5167C /* SceneDelegate.swift */; };
 		B5ACD78628E5980600A5167C /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5ACD78528E5980600A5167C /* MapViewController.swift */; };
@@ -32,6 +35,9 @@
 		B55A6D6728EF083B000497C8 /* SightsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SightsTableViewController.swift; sourceTree = "<group>"; };
 		B55A6D6928EF131C000497C8 /* SightDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SightDetailViewController.swift; sourceTree = "<group>"; };
 		B55A6D6B28EF15ED000497C8 /* SightDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SightDetailViewModel.swift; sourceTree = "<group>"; };
+		B5A88CF02909682C00FA091D /* Annotations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Annotations.swift; sourceTree = "<group>"; };
+		B5A88CF2290968CE00FA091D /* Directions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Directions.swift; sourceTree = "<group>"; };
+		B5A88CF42909698700FA091D /* MapCamera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapCamera.swift; sourceTree = "<group>"; };
 		B5ACD77E28E5980600A5167C /* TumenMustHave.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TumenMustHave.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5ACD78128E5980600A5167C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B5ACD78328E5980600A5167C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -103,6 +109,16 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
+		B5A88CEF2909680400FA091D /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				B5A88CF02909682C00FA091D /* Annotations.swift */,
+				B5A88CF2290968CE00FA091D /* Directions.swift */,
+				B5A88CF42909698700FA091D /* MapCamera.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		B5ACD77528E5980600A5167C = {
 			isa = PBXGroup;
 			children = (
@@ -129,6 +145,7 @@
 				B55A6D6D28EF15F0000497C8 /* ViewModel */,
 				B5585FEC28F038C0001E45E9 /* Alerts */,
 				B5438ECD28F3257400EC54BE /* Cell */,
+				B5A88CEF2909680400FA091D /* Helpers */,
 				B5ACD79B28E5997B00A5167C /* Controllers */,
 				B5ACD78A28E5980600A5167C /* Assets.xcassets */,
 				B5ACD78F28E5980600A5167C /* Info.plist */,
@@ -244,14 +261,17 @@
 			files = (
 				B55A6D6C28EF15ED000497C8 /* SightDetailViewModel.swift in Sources */,
 				B5ACD78628E5980600A5167C /* MapViewController.swift in Sources */,
+				B5A88CF12909682C00FA091D /* Annotations.swift in Sources */,
 				B5ACD78228E5980600A5167C /* AppDelegate.swift in Sources */,
 				B5438ECC28F323CB00EC54BE /* SightTableViewCell.swift in Sources */,
 				B55A6D6828EF083B000497C8 /* SightsTableViewController.swift in Sources */,
 				B55A6D6A28EF131C000497C8 /* SightDetailViewController.swift in Sources */,
 				B55A6D6628EF012D000497C8 /* MainTabBarController.swift in Sources */,
 				B5585FEB28F038BC001E45E9 /* Alerts.swift in Sources */,
+				B5A88CF52909698700FA091D /* MapCamera.swift in Sources */,
 				B55A6D6328EEF20B000497C8 /* JsonDecoder.swift in Sources */,
 				B5ACD78428E5980600A5167C /* SceneDelegate.swift in Sources */,
+				B5A88CF3290968CE00FA091D /* Directions.swift in Sources */,
 				B5ACD79D28E59AB700A5167C /* SightModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

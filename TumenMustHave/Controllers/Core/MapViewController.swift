@@ -11,11 +11,11 @@ import CoreLocation
 
 class MapViewController: UIViewController {
     
-    private var sights = JsonDecoder.shared.getJsonData() ?? []
-    private var sightRouteCoordinate: CLLocationCoordinate2D?
+    var sights = JsonDecoder.shared.getJsonData() ?? []
+    var sightRouteCoordinate: CLLocationCoordinate2D?
     
-    private var didStartRoute = false
-    private var isCenteringModeOn = false
+    var didStartRoute = false
+    var isCenteringModeOn = false
     
     private let locationManager: CLLocationManager = {
         let locationManager = CLLocationManager()
@@ -23,7 +23,7 @@ class MapViewController: UIViewController {
         return locationManager
     }()
     
-    private let mapView: MKMapView = {
+    let mapView: MKMapView = {
         let mapView = MKMapView()
         mapView.translatesAutoresizingMaskIntoConstraints = false
         return mapView
@@ -104,14 +104,7 @@ class MapViewController: UIViewController {
             navigationItem.rightBarButtonItem = stopMonitoringNavBarItem
         }
     }
-    
-    private func centerMapCamera() {
-        let coordinate = CLLocationCoordinate2D(latitude: 57.148470, longitude: 65.549138)
-        let span = MKCoordinateSpan(latitudeDelta: 0.2, longitudeDelta: 0.2)
-        let region = MKCoordinateRegion(center: coordinate, span: span)
-        mapView.setRegion(region, animated: true)
-    }
-    
+        
     @objc private func startMonitoringUserLocation() {
         guard locationManager.authorizationStatus == .authorizedWhenInUse || locationManager.authorizationStatus == .authorizedAlways else {
             requestUserLocation()
@@ -169,23 +162,6 @@ class MapViewController: UIViewController {
         cancelRouteBtn.isHidden = true
     }
     
-    private func addAnnotationsToMap() {
-        print(sights)
-        
-        for sight in sights {
-            let someSight = SightOnMap(title: sight.name, coordinate: CLLocationCoordinate2D(latitude: sight.latitude, longitude: sight.longitude), subtitle: sight.subtitle)
-            mapView.addAnnotation(someSight)
-        }
-    }
-    
-    private func addCircleRadiusToAnnotations() {
-        for sight in sights {
-            let center = CLLocationCoordinate2D(latitude: sight.latitude, longitude: sight.longitude)
-            let circle = MKCircle(center: center, radius: 80)
-            mapView.addOverlay(circle)
-        }
-    }
-    
     private func requestUserLocation() {
         guard CLLocationManager.locationServicesEnabled() else {
             showTurnUserLocationOnDeviceAlert()
@@ -197,25 +173,6 @@ class MapViewController: UIViewController {
         print("peremoga")
     }
     
-    private func createDirectionsRequest(from userCoordinate: CLLocationCoordinate2D, to coordinate: CLLocationCoordinate2D) -> MKDirections.Request {
-        let sourse = MKPlacemark(coordinate: userCoordinate)
-        let destination = MKPlacemark(coordinate: coordinate)
-        
-        let request = MKDirections.Request()
-        request.source = MKMapItem(placemark: sourse)
-        request.destination = MKMapItem(placemark: destination)
-        request.transportType = .walking
-        return request
-    }
-    
-    private func calculateDistance(userCoordinate: CLLocationCoordinate2D, sightCoordinate: CLLocationCoordinate2D) -> CLLocationDistance {
-        let userLocation = CLLocation(latitude: userCoordinate.latitude, longitude: userCoordinate.longitude)
-        let sightLocation = CLLocation(latitude: sightCoordinate.latitude, longitude: sightCoordinate.longitude)
-        
-        let distanse = userLocation.distance(from: sightLocation)
-        return distanse
-    }
-    
     private func pushSightDetailView(with sight: SightOnMap) {
         
         let sightDetail = SightDetail(name: sight.title!, subtitle: sight.subtitle!, coordinate: sight.coordinate)
@@ -225,42 +182,6 @@ class MapViewController: UIViewController {
         vc.configure(with: sightDetail)
         
         navigationController?.pushViewController(vc, animated: true)
-    }
-    
-    private func calculateDirectionRoute(with request: MKDirections.Request) {
-        let request = request
-        let directions = MKDirections(request: request)
-        
-        directions.calculate { [weak self] response, error in
-            guard let self = self else { return }
-            guard let response = response else {
-                print("unable to calculate")
-                return
-            }
-            
-            self.mapView.overlays.forEach {
-                if $0.isKind(of: MKPolyline.self) {
-                    self.mapView.removeOverlay($0)
-                }
-            }
-            
-            for route in response.routes {
-                self.mapView.addOverlay(route.polyline)
-                
-                if !self.didStartRoute  {
-                    self.mapView.setVisibleMapRect(route.polyline.boundingMapRect, animated: true)
-                }
-                
-            }
-            
-        }
-    }
-    
-    private func centerMapOnUserLocation(with userCoordinate: CLLocationCoordinate2D) {
-        guard isCenteringModeOn else { return }
-        let center = CLLocationCoordinate2D(latitude: userCoordinate.latitude, longitude: userCoordinate.longitude)
-        let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005))
-        mapView.setRegion(region, animated: true)
     }
     
 }
@@ -275,7 +196,7 @@ extension MapViewController {
             mapView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             
             toggleRouteMonitoringModeBtn.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 25),
-            toggleRouteMonitoringModeBtn.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 25),
+            toggleRouteMonitoringModeBtn.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -25),
             toggleRouteMonitoringModeBtn.heightAnchor.constraint(equalToConstant: 40),
             toggleRouteMonitoringModeBtn.widthAnchor.constraint(equalToConstant: 40),
             
@@ -373,7 +294,7 @@ extension MapViewController: CLLocationManagerDelegate {
             print("new status")
         }
     }
-            
+    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let userCoordinate = locations.first?.coordinate else { return }
         guard let sightCoordinate = sightRouteCoordinate else { return }
