@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B5006798295ED692005F3757 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5006797295ED692005F3757 /* MapView.swift */; };
+		B500679D295EDB5F005F3757 /* MapViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B500679C295EDB5F005F3757 /* MapViewViewModel.swift */; };
 		B5438ECC28F323CB00EC54BE /* SightTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5438ECB28F323CB00EC54BE /* SightTableViewCell.swift */; };
 		B5585FEB28F038BC001E45E9 /* Alerts.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5585FEA28F038BC001E45E9 /* Alerts.swift */; };
 		B55A6D6328EEF20B000497C8 /* JsonDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55A6D6228EEF20B000497C8 /* JsonDecoder.swift */; };
@@ -14,9 +16,6 @@
 		B55A6D6828EF083B000497C8 /* SightsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55A6D6728EF083B000497C8 /* SightsTableViewController.swift */; };
 		B55A6D6A28EF131C000497C8 /* SightDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55A6D6928EF131C000497C8 /* SightDetailViewController.swift */; };
 		B55A6D6C28EF15ED000497C8 /* SightDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55A6D6B28EF15ED000497C8 /* SightDetailViewModel.swift */; };
-		B5A88CF12909682C00FA091D /* Annotations.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A88CF02909682C00FA091D /* Annotations.swift */; };
-		B5A88CF3290968CE00FA091D /* Directions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A88CF2290968CE00FA091D /* Directions.swift */; };
-		B5A88CF52909698700FA091D /* MapCamera.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A88CF42909698700FA091D /* MapCamera.swift */; };
 		B5ACD78228E5980600A5167C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5ACD78128E5980600A5167C /* AppDelegate.swift */; };
 		B5ACD78428E5980600A5167C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5ACD78328E5980600A5167C /* SceneDelegate.swift */; };
 		B5ACD78628E5980600A5167C /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5ACD78528E5980600A5167C /* MapViewController.swift */; };
@@ -27,6 +26,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B5006797295ED692005F3757 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		B500679C295EDB5F005F3757 /* MapViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewViewModel.swift; sourceTree = "<group>"; };
 		B50EADF428E60B0B00A099D1 /* SightCollection.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = SightCollection.json; sourceTree = "<group>"; };
 		B5438ECB28F323CB00EC54BE /* SightTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SightTableViewCell.swift; sourceTree = "<group>"; };
 		B5585FEA28F038BC001E45E9 /* Alerts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alerts.swift; sourceTree = "<group>"; };
@@ -35,9 +36,6 @@
 		B55A6D6728EF083B000497C8 /* SightsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SightsTableViewController.swift; sourceTree = "<group>"; };
 		B55A6D6928EF131C000497C8 /* SightDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SightDetailViewController.swift; sourceTree = "<group>"; };
 		B55A6D6B28EF15ED000497C8 /* SightDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SightDetailViewModel.swift; sourceTree = "<group>"; };
-		B5A88CF02909682C00FA091D /* Annotations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Annotations.swift; sourceTree = "<group>"; };
-		B5A88CF2290968CE00FA091D /* Directions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Directions.swift; sourceTree = "<group>"; };
-		B5A88CF42909698700FA091D /* MapCamera.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapCamera.swift; sourceTree = "<group>"; };
 		B5ACD77E28E5980600A5167C /* TumenMustHave.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TumenMustHave.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5ACD78128E5980600A5167C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B5ACD78328E5980600A5167C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -59,6 +57,33 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B5006799295EDAE1005F3757 /* SightsTable */ = {
+			isa = PBXGroup;
+			children = (
+				B5438ECD28F3257400EC54BE /* Cell */,
+				B55A6D6728EF083B000497C8 /* SightsTableViewController.swift */,
+			);
+			path = SightsTable;
+			sourceTree = "<group>";
+		};
+		B500679A295EDB00005F3757 /* MainMap */ = {
+			isa = PBXGroup;
+			children = (
+				B5ACD78528E5980600A5167C /* MapViewController.swift */,
+				B5006797295ED692005F3757 /* MapView.swift */,
+				B500679C295EDB5F005F3757 /* MapViewViewModel.swift */,
+			);
+			path = MainMap;
+			sourceTree = "<group>";
+		};
+		B500679B295EDB15005F3757 /* TabBar */ = {
+			isa = PBXGroup;
+			children = (
+				B55A6D6528EF012D000497C8 /* MainTabBarController.swift */,
+			);
+			path = TabBar;
+			sourceTree = "<group>";
+		};
 		B5438ECD28F3257400EC54BE /* Cell */ = {
 			isa = PBXGroup;
 			children = (
@@ -70,9 +95,9 @@
 		B5438ECE28F3258900EC54BE /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				B55A6D6528EF012D000497C8 /* MainTabBarController.swift */,
-				B5ACD78528E5980600A5167C /* MapViewController.swift */,
-				B55A6D6728EF083B000497C8 /* SightsTableViewController.swift */,
+				B500679B295EDB15005F3757 /* TabBar */,
+				B500679A295EDB00005F3757 /* MainMap */,
+				B5006799295EDAE1005F3757 /* SightsTable */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -112,9 +137,6 @@
 		B5A88CEF2909680400FA091D /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				B5A88CF02909682C00FA091D /* Annotations.swift */,
-				B5A88CF2290968CE00FA091D /* Directions.swift */,
-				B5A88CF42909698700FA091D /* MapCamera.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -144,7 +166,6 @@
 				B5ACD79E28E59ABA00A5167C /* Model */,
 				B55A6D6D28EF15F0000497C8 /* ViewModel */,
 				B5585FEC28F038C0001E45E9 /* Alerts */,
-				B5438ECD28F3257400EC54BE /* Cell */,
 				B5A88CEF2909680400FA091D /* Extensions */,
 				B5ACD79B28E5997B00A5167C /* Controllers */,
 				B5ACD78A28E5980600A5167C /* Assets.xcassets */,
@@ -261,17 +282,16 @@
 			files = (
 				B55A6D6C28EF15ED000497C8 /* SightDetailViewModel.swift in Sources */,
 				B5ACD78628E5980600A5167C /* MapViewController.swift in Sources */,
-				B5A88CF12909682C00FA091D /* Annotations.swift in Sources */,
 				B5ACD78228E5980600A5167C /* AppDelegate.swift in Sources */,
 				B5438ECC28F323CB00EC54BE /* SightTableViewCell.swift in Sources */,
 				B55A6D6828EF083B000497C8 /* SightsTableViewController.swift in Sources */,
+				B500679D295EDB5F005F3757 /* MapViewViewModel.swift in Sources */,
 				B55A6D6A28EF131C000497C8 /* SightDetailViewController.swift in Sources */,
+				B5006798295ED692005F3757 /* MapView.swift in Sources */,
 				B55A6D6628EF012D000497C8 /* MainTabBarController.swift in Sources */,
 				B5585FEB28F038BC001E45E9 /* Alerts.swift in Sources */,
-				B5A88CF52909698700FA091D /* MapCamera.swift in Sources */,
 				B55A6D6328EEF20B000497C8 /* JsonDecoder.swift in Sources */,
 				B5ACD78428E5980600A5167C /* SceneDelegate.swift in Sources */,
-				B5A88CF3290968CE00FA091D /* Directions.swift in Sources */,
 				B5ACD79D28E59AB700A5167C /* SightModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -340,7 +360,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -394,7 +414,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -418,6 +438,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -445,6 +466,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

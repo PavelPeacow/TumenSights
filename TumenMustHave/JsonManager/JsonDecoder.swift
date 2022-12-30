@@ -7,21 +7,25 @@
 
 import Foundation
 
+enum DecoderError: Error {
+    case badUrl
+    case canNotGetData
+    case canNotDecodeData
+}
+
+class JsonConstant {
+    static let fileURL = Bundle.main.url(forResource:"SightCollection", withExtension: "json")
+}
+
 class JsonDecoder {
-    static let shared = JsonDecoder()
-    
-    private let fileURL = Bundle.main.url(forResource:"SightCollection", withExtension: "json")
-    
-    func getJsonData() -> [Sight]? {
-        guard let fileURL = fileURL else {
-            print("loh1")
-            return nil
-        }
-        guard let data = try? Data(contentsOf: fileURL) else { print("loh2"); return nil  }
-        guard let result = try? JSONDecoder().decode([Sight].self, from: data) else {
-            print("loh3")
-            return nil
-        }
+
+    func getJsonData(with url: URL?) throws -> [Sight] {
+        guard let fileURL = url else { throw DecoderError.badUrl }
+        
+        guard let data = try? Data(contentsOf: fileURL) else { throw DecoderError.canNotGetData }
+        
+        guard let result = try? JSONDecoder().decode([Sight].self, from: data) else { throw DecoderError.canNotDecodeData }
+        
         return result
     }
 }

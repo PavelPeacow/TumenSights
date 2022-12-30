@@ -10,7 +10,7 @@ import MapKit
 
 class SightsTableViewController: UITableViewController {
 
-    private var sights = JsonDecoder.shared.getJsonData() ?? []
+    private var sights = [Sight]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
