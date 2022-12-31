@@ -7,6 +7,7 @@
 
 import UIKit
 import MapKit
+import CoreData
 
 protocol GetRouteDelegate {
     func getSightCoordinates(_ coordinate: CLLocationCoordinate2D, _ sight: SightOnMap)
@@ -51,10 +52,20 @@ class SightDetailViewController: UIViewController {
         getRouteButton.addTarget(self, action: #selector(getRoute), for: .touchUpInside)
         return getRouteButton
     }()
+    
+    private lazy var markAsVisitedSightBtn: UIButton = {
+        let btn = UIButton(configuration: UIButton.Configuration.bordered())
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.setTitle("Отметить как посещенное", for: .normal)
+        btn.addTarget(self, action: #selector(markAsVisitedSight), for: .touchUpInside)
+        return btn
+    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        print(CoreDataStack.shared.fetchSights())
+        
         view.backgroundColor = .systemBackground
                 
         view.addSubview(scrollView)
@@ -62,6 +73,7 @@ class SightDetailViewController: UIViewController {
         scrollView.addSubview(sightName)
         scrollView.addSubview(sightDescription)
         scrollView.addSubview(getRouteButton)
+        scrollView.addSubview(markAsVisitedSightBtn)
         setConstraints()
     }
     
@@ -83,6 +95,14 @@ class SightDetailViewController: UIViewController {
         guard let sight = selectedSigth else { return }
         delegate?.getSightCoordinates(sightCoordinate, sight)
         
+        navigationController?.popViewController(animated: true)
+    }
+    
+    @objc private func markAsVisitedSight() {
+        guard let selectedSigth = selectedSigth else { return }
+        guard !CoreDataStack.shared.isSightVisited(sight: selectedSigth) else { return }
+        
+        CoreDataStack.shared.saveSight(sight: selectedSigth)
         navigationController?.popViewController(animated: true)
     }
     
@@ -108,7 +128,12 @@ extension SightDetailViewController {
             getRouteButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             getRouteButton.heightAnchor.constraint(equalToConstant: 25),
             getRouteButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.75),
-            getRouteButton.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            
+            markAsVisitedSightBtn.topAnchor.constraint(equalTo: getRouteButton.bottomAnchor, constant: 15),
+            markAsVisitedSightBtn.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            markAsVisitedSightBtn.heightAnchor.constraint(equalToConstant: 25),
+            markAsVisitedSightBtn.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.75),
+            markAsVisitedSightBtn.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
         ])
     }
 }

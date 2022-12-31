@@ -61,7 +61,7 @@ final class MapViewController: UIViewController {
     private func setTargets() {
         mapView.turnOnLocationServicesBtn.addTarget(self, action: #selector(requestUserLocation), for: .touchUpInside)
         mapView.startRouteBtn.addTarget(self, action: #selector(didTappStartRouteBtn), for: .touchUpInside)
-        mapView.cancelRouteBtn.addTarget(self, action: #selector(didTappCancelRouteBtn), for: .touchUpInside)
+        mapView.cancelRouteBtn.addTarget(self, action: #selector(cancelCurrentRoute), for: .touchUpInside)
         mapView.toggleRouteMonitoringModeBtn.addTarget(self, action: #selector(toggleRouteMonitoringMode(_:)), for: .touchUpInside)
     }
     
@@ -73,13 +73,30 @@ final class MapViewController: UIViewController {
         
         navigationItem.titleView = nil
     }
-        
+    
     private func pushSightDetailView(with sight: SightOnMap) {
         let vc = SightDetailViewController()
         vc.delegate = self
         vc.configure(with: sight)
         
         navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    private func showOnlySelectedSight(selectedSight sight: SightOnMap) {
+        let annotations = viewModel.annotations.filter { $0 != sight }
+        mapView.map.removeAnnotations(annotations)
+        let overlays = mapView.map.overlays.filter { $0.isKind(of: MKCircle.self) && $0.coordinate.latitude != sight.coordinate.latitude }
+        overlays.forEach { mapView.map.removeOverlay($0) }
+    }
+    
+    private func toggleButtonsVisibility(toggle: Bool) {
+        if toggle {
+            mapView.startRouteBtn.isHidden = true
+            mapView.cancelRouteBtn.isHidden = true
+        } else {
+            mapView.startRouteBtn.isHidden = false
+            mapView.cancelRouteBtn.isHidden = false
+        }
     }
     
 }
@@ -97,12 +114,6 @@ private extension MapViewController {
     
     @objc func didTappStartRouteBtn() {
         viewModel.didStartRoute = true
-    }
-    
-    @objc func didTappCancelRouteBtn() {
-        cancelCurrentRoute()
-        mapView.startRouteBtn.isHidden = true
-        mapView.cancelRouteBtn.isHidden = true
     }
     
     @objc func requestUserLocation() {
@@ -123,13 +134,14 @@ extension MapViewController: MapViewViewModelDelegate {
         switch viewModel.didStartRoute {
         case true:
             mapView.toggleRouteMonitoringModeBtn.isHidden = false
-            mapView.startRouteBtn.isHidden = true
-            mapView.cancelRouteBtn.isHidden = true
+            toggleButtonsVisibility(toggle: true)
             navigationItem.leftBarButtonItem = cancelCurrentRouteNavBarItem
         case false:
             mapView.toggleRouteMonitoringModeBtn.isHidden = true
-            viewModel.sightRouteCoordinate = nil
+            toggleButtonsVisibility(toggle: true)
             navigationItem.leftBarButtonItem = nil
+            viewModel.sightRouteCoordinate = nil
+            
             
             self.mapView.map.overlays.forEach {
                 if $0.isKind(of: MKPolyline.self) {
@@ -165,15 +177,12 @@ extension MapViewController: MapViewViewModelDelegate {
     
     func viewModelDidUpdateDirection(_ viewModel: MapViewViewModel) {
         
-        mapView.map.overlays.forEach {
-            if $0.isKind(of: MKPolyline.self) {
-                mapView.map.removeOverlay($0)
-            }
-        }
+        mapView.map.overlays.filter { $0.isKind(of: MKPolyline.self) }.forEach { mapView.map.removeOverlay($0) }
         
         for route in viewModel.directions {
             mapView.map.addOverlay(route.polyline)
             
+            //detach the camera, when route start
             if !viewModel.didStartRoute  {
                 mapView.map.setVisibleMapRect(route.polyline.boundingMapRect, animated: true)
             }
@@ -182,6 +191,7 @@ extension MapViewController: MapViewViewModelDelegate {
     }
 }
 
+//MARK: MapDelegate
 extension MapViewController: MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
@@ -235,6 +245,7 @@ extension MapViewController: MKMapViewDelegate {
     }
 }
 
+//MARK: LocationManagerDelegate
 extension MapViewController: CLLocationManagerDelegate {
     
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
@@ -301,17 +312,15 @@ extension MapViewController: GetRouteDelegate {
     func getSightCoordinates(_ coordinate: CLLocationCoordinate2D, _ sight: SightOnMap) {
         guard mapView.map.showsUserLocation else { return }
         guard let userCoordinate = locationManager.location?.coordinate else { return }
-        cancelCurrentRoute()
         
-        mapView.map.removeAnnotations(viewModel.annotations.filter({$0 != sight}))
-        mapView.map.overlays.filter { $0.isKind(of: MKCircle.self) && $0.coordinate.latitude != sight.coordinate.latitude }.forEach { mapView.map.removeOverlay($0) }
+        showOnlySelectedSight(selectedSight: sight)
         
         viewModel.sightRouteCoordinate = coordinate
         
         let request = viewModel.createDirectionsRequest(from: userCoordinate, to: viewModel.sightRouteCoordinate!)
         viewModel.calculateDirectionRoute(with: request)
         
-        mapView.startRouteBtn.isHidden = false
-        mapView.cancelRouteBtn.isHidden = false
+        toggleButtonsVisibility(toggle: false)
     }
 }
+

@@ -10,8 +10,7 @@ import MapKit
 
 final class SightsTableViewController: UITableViewController {
 
-    private var viewModel = MapViewViewModel()
-    private lazy var sights = viewModel.sights
+    private lazy var sights = CoreDataStack.shared.fetchSights()
     
     override func viewDidLoad() {
         super.viewDidLoad()
