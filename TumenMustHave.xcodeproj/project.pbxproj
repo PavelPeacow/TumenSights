@@ -9,13 +9,13 @@
 /* Begin PBXBuildFile section */
 		B5006798295ED692005F3757 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5006797295ED692005F3757 /* MapView.swift */; };
 		B500679D295EDB5F005F3757 /* MapViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B500679C295EDB5F005F3757 /* MapViewViewModel.swift */; };
+		B5182B4B29601FC7004F20E3 /* MapKitSightModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5182B4A29601FC7004F20E3 /* MapKitSightModel.swift */; };
 		B5438ECC28F323CB00EC54BE /* SightTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5438ECB28F323CB00EC54BE /* SightTableViewCell.swift */; };
 		B5585FEB28F038BC001E45E9 /* Alerts.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5585FEA28F038BC001E45E9 /* Alerts.swift */; };
 		B55A6D6328EEF20B000497C8 /* JsonDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55A6D6228EEF20B000497C8 /* JsonDecoder.swift */; };
 		B55A6D6628EF012D000497C8 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55A6D6528EF012D000497C8 /* MainTabBarController.swift */; };
 		B55A6D6828EF083B000497C8 /* SightsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55A6D6728EF083B000497C8 /* SightsTableViewController.swift */; };
 		B55A6D6A28EF131C000497C8 /* SightDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55A6D6928EF131C000497C8 /* SightDetailViewController.swift */; };
-		B55A6D6C28EF15ED000497C8 /* SightDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55A6D6B28EF15ED000497C8 /* SightDetailViewModel.swift */; };
 		B5ACD78228E5980600A5167C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5ACD78128E5980600A5167C /* AppDelegate.swift */; };
 		B5ACD78428E5980600A5167C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5ACD78328E5980600A5167C /* SceneDelegate.swift */; };
 		B5ACD78628E5980600A5167C /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5ACD78528E5980600A5167C /* MapViewController.swift */; };
@@ -29,13 +29,13 @@
 		B5006797295ED692005F3757 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		B500679C295EDB5F005F3757 /* MapViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewViewModel.swift; sourceTree = "<group>"; };
 		B50EADF428E60B0B00A099D1 /* SightCollection.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = SightCollection.json; sourceTree = "<group>"; };
+		B5182B4A29601FC7004F20E3 /* MapKitSightModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapKitSightModel.swift; sourceTree = "<group>"; };
 		B5438ECB28F323CB00EC54BE /* SightTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SightTableViewCell.swift; sourceTree = "<group>"; };
 		B5585FEA28F038BC001E45E9 /* Alerts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alerts.swift; sourceTree = "<group>"; };
 		B55A6D6228EEF20B000497C8 /* JsonDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonDecoder.swift; sourceTree = "<group>"; };
 		B55A6D6528EF012D000497C8 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		B55A6D6728EF083B000497C8 /* SightsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SightsTableViewController.swift; sourceTree = "<group>"; };
 		B55A6D6928EF131C000497C8 /* SightDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SightDetailViewController.swift; sourceTree = "<group>"; };
-		B55A6D6B28EF15ED000497C8 /* SightDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SightDetailViewModel.swift; sourceTree = "<group>"; };
 		B5ACD77E28E5980600A5167C /* TumenMustHave.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TumenMustHave.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5ACD78128E5980600A5167C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B5ACD78328E5980600A5167C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -60,8 +60,8 @@
 		B5006799295EDAE1005F3757 /* SightsTable */ = {
 			isa = PBXGroup;
 			children = (
-				B5438ECD28F3257400EC54BE /* Cell */,
 				B55A6D6728EF083B000497C8 /* SightsTableViewController.swift */,
+				B5438ECD28F3257400EC54BE /* Cell */,
 			);
 			path = SightsTable;
 			sourceTree = "<group>";
@@ -72,6 +72,7 @@
 				B5ACD78528E5980600A5167C /* MapViewController.swift */,
 				B5006797295ED692005F3757 /* MapView.swift */,
 				B500679C295EDB5F005F3757 /* MapViewViewModel.swift */,
+				B5182B4C29602085004F20E3 /* DetailView */,
 			);
 			path = MainMap;
 			sourceTree = "<group>";
@@ -84,30 +85,20 @@
 			path = TabBar;
 			sourceTree = "<group>";
 		};
+		B5182B4C29602085004F20E3 /* DetailView */ = {
+			isa = PBXGroup;
+			children = (
+				B55A6D6928EF131C000497C8 /* SightDetailViewController.swift */,
+			);
+			path = DetailView;
+			sourceTree = "<group>";
+		};
 		B5438ECD28F3257400EC54BE /* Cell */ = {
 			isa = PBXGroup;
 			children = (
 				B5438ECB28F323CB00EC54BE /* SightTableViewCell.swift */,
 			);
 			path = Cell;
-			sourceTree = "<group>";
-		};
-		B5438ECE28F3258900EC54BE /* Core */ = {
-			isa = PBXGroup;
-			children = (
-				B500679B295EDB15005F3757 /* TabBar */,
-				B500679A295EDB00005F3757 /* MainMap */,
-				B5006799295EDAE1005F3757 /* SightsTable */,
-			);
-			path = Core;
-			sourceTree = "<group>";
-		};
-		B5438ECF28F3258F00EC54BE /* Main */ = {
-			isa = PBXGroup;
-			children = (
-				B55A6D6928EF131C000497C8 /* SightDetailViewController.swift */,
-			);
-			path = Main;
 			sourceTree = "<group>";
 		};
 		B5585FEC28F038C0001E45E9 /* Alerts */ = {
@@ -124,21 +115,6 @@
 				B50EADF428E60B0B00A099D1 /* SightCollection.json */,
 			);
 			path = Json;
-			sourceTree = "<group>";
-		};
-		B55A6D6D28EF15F0000497C8 /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-				B55A6D6B28EF15ED000497C8 /* SightDetailViewModel.swift */,
-			);
-			path = ViewModel;
-			sourceTree = "<group>";
-		};
-		B5A88CEF2909680400FA091D /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Extensions;
 			sourceTree = "<group>";
 		};
 		B5ACD77528E5980600A5167C = {
@@ -164,9 +140,7 @@
 				B55A6D6428EEF6A1000497C8 /* Json */,
 				B5ACD79A28E5996800A5167C /* JsonManager */,
 				B5ACD79E28E59ABA00A5167C /* Model */,
-				B55A6D6D28EF15F0000497C8 /* ViewModel */,
 				B5585FEC28F038C0001E45E9 /* Alerts */,
-				B5A88CEF2909680400FA091D /* Extensions */,
 				B5ACD79B28E5997B00A5167C /* Controllers */,
 				B5ACD78A28E5980600A5167C /* Assets.xcassets */,
 				B5ACD78F28E5980600A5167C /* Info.plist */,
@@ -195,8 +169,9 @@
 		B5ACD79B28E5997B00A5167C /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				B5438ECF28F3258F00EC54BE /* Main */,
-				B5438ECE28F3258900EC54BE /* Core */,
+				B500679B295EDB15005F3757 /* TabBar */,
+				B500679A295EDB00005F3757 /* MainMap */,
+				B5006799295EDAE1005F3757 /* SightsTable */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -205,6 +180,7 @@
 			isa = PBXGroup;
 			children = (
 				B5ACD79C28E59AB700A5167C /* SightModel.swift */,
+				B5182B4A29601FC7004F20E3 /* MapKitSightModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -280,10 +256,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B55A6D6C28EF15ED000497C8 /* SightDetailViewModel.swift in Sources */,
 				B5ACD78628E5980600A5167C /* MapViewController.swift in Sources */,
 				B5ACD78228E5980600A5167C /* AppDelegate.swift in Sources */,
 				B5438ECC28F323CB00EC54BE /* SightTableViewCell.swift in Sources */,
+				B5182B4B29601FC7004F20E3 /* MapKitSightModel.swift in Sources */,
 				B55A6D6828EF083B000497C8 /* SightsTableViewController.swift in Sources */,
 				B500679D295EDB5F005F3757 /* MapViewViewModel.swift in Sources */,
 				B55A6D6A28EF131C000497C8 /* SightDetailViewController.swift in Sources */,

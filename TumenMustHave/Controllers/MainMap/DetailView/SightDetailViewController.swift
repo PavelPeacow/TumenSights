@@ -9,7 +9,7 @@ import UIKit
 import MapKit
 
 protocol GetRouteDelegate {
-    func getSightCoordinates(_ coordinate: CLLocationCoordinate2D)
+    func getSightCoordinates(_ coordinate: CLLocationCoordinate2D, _ sight: SightOnMap)
 }
 
 class SightDetailViewController: UIViewController {
@@ -17,6 +17,7 @@ class SightDetailViewController: UIViewController {
     private let scrollView: UIScrollView = UIScrollView()
     
     var sightCoordinate: CLLocationCoordinate2D?
+    var selectedSigth: SightOnMap?
     
     var delegate: GetRouteDelegate?
     
@@ -69,16 +70,18 @@ class SightDetailViewController: UIViewController {
         scrollView.frame = view.bounds
     }
     
-    public func configure(with model: SightDetail) {
-        sightImage.image = UIImage(named: model.name)
-        sightName.text = model.name
+    public func configure(with model: SightOnMap) {
+        sightImage.image = UIImage(named: model.title ?? "")
+        sightName.text = model.title
         sightDescription.text = model.subtitle
         sightCoordinate = model.coordinate
+        selectedSigth = model
     }
     
     @objc private func getRoute() {
         guard let sightCoordinate = sightCoordinate else { return }
-        delegate?.getSightCoordinates(sightCoordinate)
+        guard let sight = selectedSigth else { return }
+        delegate?.getSightCoordinates(sightCoordinate, sight)
         
         navigationController?.popViewController(animated: true)
     }

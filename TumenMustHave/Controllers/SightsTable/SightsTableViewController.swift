@@ -8,9 +8,10 @@
 import UIKit
 import MapKit
 
-class SightsTableViewController: UITableViewController {
+final class SightsTableViewController: UITableViewController {
 
-    private var sights = [Sight]()
+    private var viewModel = MapViewViewModel()
+    private lazy var sights = viewModel.sights
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,7 +43,8 @@ extension SightsTableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
         
         let vc = SightDetailViewController()
-        vc.configure(with: SightDetail(name: sights[indexPath.row].name, subtitle: sights[indexPath.row].subtitle, coordinate: CLLocationCoordinate2D(latitude: sights[indexPath.row].latitude, longitude: sights[indexPath.row].longitude) ))
+        let sight = SightOnMap(title: sights[indexPath.row].name, coordinate: CLLocationCoordinate2D(latitude: sights[indexPath.row].latitude, longitude: sights[indexPath.row].longitude), subtitle: sights[indexPath.row].subtitle)
+        vc.configure(with: sight)
         navigationController?.pushViewController(vc, animated: true)
     }
 

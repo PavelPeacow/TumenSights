@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SightTableViewCell: UITableViewCell {
+final class SightTableViewCell: UITableViewCell {
 
     static let identifier = "SightTableViewCell"
     
