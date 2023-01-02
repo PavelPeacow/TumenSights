@@ -309,7 +309,7 @@ extension MapViewController: CLLocationManagerDelegate {
 //MARK: DetailViewDelegate
 extension MapViewController: GetRouteDelegate {
     
-    func getSightCoordinates(_ coordinate: CLLocationCoordinate2D, _ sight: SightOnMap) {
+    func didTapGetRouteBtn(_ coordinate: CLLocationCoordinate2D, _ sight: SightOnMap) {
         guard mapView.map.showsUserLocation else { return }
         guard let userCoordinate = locationManager.location?.coordinate else { return }
         

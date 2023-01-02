@@ -11,6 +11,12 @@ class CoreDataStack {
     
     static let shared = CoreDataStack()
     
+    var visitedSights: [Sight] = [Sight]()
+    
+    private init() {
+        visitedSights = fetchSights()
+    }
+    
     private lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "VisitedSights")
         container.loadPersistentStores { (storeDescription, error) in
@@ -29,10 +35,10 @@ class CoreDataStack {
         object.subtitle = sight.subtitle
         object.longitude = sight.coordinate.longitude
         object.latitude = sight.coordinate.latitude
-        context.insert(object)
         
         do {
             try context.save()
+            visitedSights = fetchSights()
         } catch {
             print(error)
         }
@@ -45,7 +51,7 @@ class CoreDataStack {
         
         do {
             let objects = try context.fetch(request)
-            print(objects)
+            
             guard let _ = objects.first else { return false }
             return true
         } catch {
@@ -61,10 +67,11 @@ class CoreDataStack {
         
         do {
             let objects = try context.fetch(request)
-            print(objects)
+
             if let objectToDelete = objects.first {
                 context.delete(objectToDelete)
                 try context.save()
+                visitedSights = fetchSights()
             }
         } catch {
             print(error)

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreData
 import MapKit
 
 final class SightsTableViewController: UITableViewController {
@@ -17,6 +18,16 @@ final class SightsTableViewController: UITableViewController {
         
         tableView.register(SightTableViewCell.self, forCellReuseIdentifier: SightTableViewCell.identifier)
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        sights = CoreDataStack.shared.visitedSights
+        tableView.reloadData()
+    }
+    
+}
+
+extension SightsTableViewController: NSFetchedResultsControllerDelegate {
     
 }
 

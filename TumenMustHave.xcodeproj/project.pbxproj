@@ -20,6 +20,7 @@
 		B5A7A79729607AC5002600BD /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A7A79629607AC5002600BD /* CoreDataStack.swift */; };
 		B5A7A79B29607E40002600BD /* VisitedSightEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A7A79929607E40002600BD /* VisitedSightEntity+CoreDataClass.swift */; };
 		B5A7A79C29607E40002600BD /* VisitedSightEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A7A79A29607E40002600BD /* VisitedSightEntity+CoreDataProperties.swift */; };
+		B5A7A79E29631BC5002600BD /* SightDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A7A79D29631BC5002600BD /* SightDetailView.swift */; };
 		B5ACD78228E5980600A5167C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5ACD78128E5980600A5167C /* AppDelegate.swift */; };
 		B5ACD78428E5980600A5167C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5ACD78328E5980600A5167C /* SceneDelegate.swift */; };
 		B5ACD78628E5980600A5167C /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5ACD78528E5980600A5167C /* MapViewController.swift */; };
@@ -44,6 +45,7 @@
 		B5A7A79629607AC5002600BD /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		B5A7A79929607E40002600BD /* VisitedSightEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "VisitedSightEntity+CoreDataClass.swift"; path = "../../../VisitedSightEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		B5A7A79A29607E40002600BD /* VisitedSightEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "VisitedSightEntity+CoreDataProperties.swift"; path = "../../../VisitedSightEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		B5A7A79D29631BC5002600BD /* SightDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SightDetailView.swift; sourceTree = "<group>"; };
 		B5ACD77E28E5980600A5167C /* TumenMustHave.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TumenMustHave.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5ACD78128E5980600A5167C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B5ACD78328E5980600A5167C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -80,7 +82,6 @@
 				B5ACD78528E5980600A5167C /* MapViewController.swift */,
 				B5006797295ED692005F3757 /* MapView.swift */,
 				B500679C295EDB5F005F3757 /* MapViewViewModel.swift */,
-				B5182B4C29602085004F20E3 /* DetailView */,
 			);
 			path = MainMap;
 			sourceTree = "<group>";
@@ -96,6 +97,7 @@
 		B5182B4C29602085004F20E3 /* DetailView */ = {
 			isa = PBXGroup;
 			children = (
+				B5A7A79D29631BC5002600BD /* SightDetailView.swift */,
 				B55A6D6928EF131C000497C8 /* SightDetailViewController.swift */,
 			);
 			path = DetailView;
@@ -199,6 +201,7 @@
 			children = (
 				B500679B295EDB15005F3757 /* TabBar */,
 				B500679A295EDB00005F3757 /* MainMap */,
+				B5182B4C29602085004F20E3 /* DetailView */,
 				B5006799295EDAE1005F3757 /* SightsTable */,
 			);
 			path = Controllers;
@@ -293,6 +296,7 @@
 				B55A6D6A28EF131C000497C8 /* SightDetailViewController.swift in Sources */,
 				B5006798295ED692005F3757 /* MapView.swift in Sources */,
 				B55A6D6628EF012D000497C8 /* MainTabBarController.swift in Sources */,
+				B5A7A79E29631BC5002600BD /* SightDetailView.swift in Sources */,
 				B5A7A79B29607E40002600BD /* VisitedSightEntity+CoreDataClass.swift in Sources */,
 				B5585FEB28F038BC001E45E9 /* Alerts.swift in Sources */,
 				B5A7A79C29607E40002600BD /* VisitedSightEntity+CoreDataProperties.swift in Sources */,
