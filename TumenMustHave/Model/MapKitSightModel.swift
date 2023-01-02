@@ -7,7 +7,7 @@
 
 import MapKit
 
-class SightOnMap: NSObject, MKAnnotation {
+final class SightOnMap: NSObject, MKAnnotation {
     var coordinate: CLLocationCoordinate2D
     var title: String?
     var subtitle: String?

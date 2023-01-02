@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SightDetailView: UIView {
+final class SightDetailView: UIView {
     
     let scrollView: UIScrollView = UIScrollView()
     

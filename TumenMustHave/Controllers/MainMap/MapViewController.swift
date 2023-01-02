@@ -25,7 +25,7 @@ final class MapViewController: UIViewController {
         return locationManager
     }()
     
-    private lazy var cancelCurrentRouteNavBarItem = UIBarButtonItem(image: UIImage(systemName: "x.circle.fill"), style: .done, target: self, action: #selector(cancelCurrentRoute))
+    private lazy var cancelCurrentRouteNavBarItem = UIBarButtonItem(customView: mapView.cancelRouteNavBarBtn)
     
     //MARK: Lifecycle
     override func viewDidLoad() {
@@ -63,10 +63,11 @@ final class MapViewController: UIViewController {
         mapView.startRouteBtn.addTarget(self, action: #selector(didTappStartRouteBtn), for: .touchUpInside)
         mapView.cancelRouteBtn.addTarget(self, action: #selector(cancelCurrentRoute), for: .touchUpInside)
         mapView.toggleRouteMonitoringModeBtn.addTarget(self, action: #selector(toggleRouteMonitoringMode(_:)), for: .touchUpInside)
+        mapView.cancelRouteNavBarBtn.addTarget(self, action: #selector(cancelCurrentRoute), for: .touchUpInside)
     }
     
     private func setNavBar() {
-        guard locationManager.authorizationStatus == .authorizedWhenInUse || locationManager.authorizationStatus == .authorizedAlways else {
+        guard CLLocationManager.authorizationStatus() == .authorizedWhenInUse || CLLocationManager.authorizationStatus() == .authorizedAlways else {
             navigationItem.titleView = mapView.turnOnLocationServicesBtn
             return
         }
@@ -117,13 +118,16 @@ private extension MapViewController {
     }
     
     @objc func requestUserLocation() {
-        guard CLLocationManager.locationServicesEnabled() else {
-            showTurnUserLocationOnDeviceAlert()
-            return
+        DispatchQueue.global().async { [weak self] in
+            guard !CLLocationManager.locationServicesEnabled() else {
+                DispatchQueue.main.async {
+                    self?.showTurnUserLocationOnDeviceAlert()
+                }
+                return
+            }
         }
         
         locationManager.requestWhenInUseAuthorization()
-        locationManagerDidChangeAuthorization(locationManager)
     }
 }
 
@@ -162,6 +166,7 @@ extension MapViewController: MapViewViewModelDelegate {
             mapView.map.setRegion(region, animated: true)
             mapView.toggleRouteMonitoringModeBtn.setImage(UIImage(systemName: "location.north.line.fill"), for: .normal)
         case false:
+            
             mapView.toggleRouteMonitoringModeBtn.setImage(UIImage(systemName: "location.fill"), for: .normal)
         }
     }
@@ -248,9 +253,7 @@ extension MapViewController: MKMapViewDelegate {
 //MARK: LocationManagerDelegate
 extension MapViewController: CLLocationManagerDelegate {
     
-    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        let status = manager.authorizationStatus
-        
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         switch status {
         case .notDetermined:
             
@@ -278,7 +281,7 @@ extension MapViewController: CLLocationManagerDelegate {
             print("new status")
         }
     }
-    
+        
     //MARK: UpdateLocation
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let userCoordinate = locations.first?.coordinate else { return }
@@ -291,6 +294,7 @@ extension MapViewController: CLLocationManagerDelegate {
         
         print(distance)
         
+        //show alert when arrived to end of the road
         if distance <= 80 {
             print("you get to sight safe and sound")
             cancelCurrentRoute()

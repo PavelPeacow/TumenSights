@@ -51,7 +51,7 @@ extension SightTableViewCell {
     func setConstraints() {
         NSLayoutConstraint.activate([
             sightImage.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            sightImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            sightImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
             sightImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
             sightImage.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.45),
             

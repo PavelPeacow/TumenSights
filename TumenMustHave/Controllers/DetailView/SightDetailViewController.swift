@@ -13,7 +13,7 @@ protocol GetRouteDelegate {
     func didTapGetRouteBtn(_ coordinate: CLLocationCoordinate2D, _ sight: SightOnMap)
 }
 
-class SightDetailViewController: UIViewController {
+final class SightDetailViewController: UIViewController {
     
     var detailView = SightDetailView()
     

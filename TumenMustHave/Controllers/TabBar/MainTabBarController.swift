@@ -7,11 +7,16 @@
 
 import UIKit
 
-class MainTabBarController: UITabBarController {
+final class MainTabBarController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        setTabBar()
+        addTabBarBlur()
+    }
+    
+    private func setTabBar() {
         let map = UINavigationController(rootViewController: MapViewController())
         let table = UINavigationController(rootViewController: SightsTableViewController())
         
@@ -22,8 +27,17 @@ class MainTabBarController: UITabBarController {
         table.tabBarItem.image = UIImage(systemName: "list.dash")
         
         tabBarController?.tabBar.tintColor = .systemBackground
-        
-        
+                
         setViewControllers([map, table], animated: true)
     }
+    
+    private func addTabBarBlur() {
+        let blurEffect = UIBlurEffect(style: .dark)
+        let blurView = UIVisualEffectView(effect: blurEffect)
+        blurView.frame = tabBar.bounds
+        blurView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        tabBar.insertSubview(blurView, at: 0)
+    }
+    
+    
 }

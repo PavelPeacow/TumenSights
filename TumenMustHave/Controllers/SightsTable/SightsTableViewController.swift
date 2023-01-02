@@ -27,10 +27,6 @@ final class SightsTableViewController: UITableViewController {
     
 }
 
-extension SightsTableViewController: NSFetchedResultsControllerDelegate {
-    
-}
-
 extension SightsTableViewController {
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

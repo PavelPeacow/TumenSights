@@ -13,11 +13,11 @@ enum DecoderError: Error {
     case canNotDecodeData
 }
 
-class JsonConstant {
+final class JsonConstant {
     static let fileURL = Bundle.main.url(forResource:"SightCollection", withExtension: "json")
 }
 
-class JsonDecoder {
+final class JsonDecoder {
 
     func getJsonData(with url: URL?) throws -> [Sight] {
         guard let fileURL = url else { throw DecoderError.badUrl }

@@ -21,6 +21,7 @@
 		B5A7A79B29607E40002600BD /* VisitedSightEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A7A79929607E40002600BD /* VisitedSightEntity+CoreDataClass.swift */; };
 		B5A7A79C29607E40002600BD /* VisitedSightEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A7A79A29607E40002600BD /* VisitedSightEntity+CoreDataProperties.swift */; };
 		B5A7A79E29631BC5002600BD /* SightDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A7A79D29631BC5002600BD /* SightDetailView.swift */; };
+		B5A7A7A129632F91002600BD /* UIButton+BlurEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A7A7A029632F91002600BD /* UIButton+BlurEffect.swift */; };
 		B5ACD78228E5980600A5167C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5ACD78128E5980600A5167C /* AppDelegate.swift */; };
 		B5ACD78428E5980600A5167C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5ACD78328E5980600A5167C /* SceneDelegate.swift */; };
 		B5ACD78628E5980600A5167C /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5ACD78528E5980600A5167C /* MapViewController.swift */; };
@@ -46,6 +47,7 @@
 		B5A7A79929607E40002600BD /* VisitedSightEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "VisitedSightEntity+CoreDataClass.swift"; path = "../../../VisitedSightEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		B5A7A79A29607E40002600BD /* VisitedSightEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "VisitedSightEntity+CoreDataProperties.swift"; path = "../../../VisitedSightEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		B5A7A79D29631BC5002600BD /* SightDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SightDetailView.swift; sourceTree = "<group>"; };
+		B5A7A7A029632F91002600BD /* UIButton+BlurEffect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+BlurEffect.swift"; sourceTree = "<group>"; };
 		B5ACD77E28E5980600A5167C /* TumenMustHave.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TumenMustHave.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5ACD78128E5980600A5167C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B5ACD78328E5980600A5167C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -146,6 +148,14 @@
 			path = CoreDataClasses;
 			sourceTree = "<group>";
 		};
+		B5A7A79F29632F78002600BD /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				B5A7A7A029632F91002600BD /* UIButton+BlurEffect.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
 		B5ACD77528E5980600A5167C = {
 			isa = PBXGroup;
 			children = (
@@ -170,6 +180,7 @@
 				B5ACD79A28E5996800A5167C /* JsonManager */,
 				B5A7A78D29607171002600BD /* CoreData */,
 				B5ACD79E28E59ABA00A5167C /* Model */,
+				B5A7A79F29632F78002600BD /* Extension */,
 				B5585FEC28F038C0001E45E9 /* Alerts */,
 				B5ACD79B28E5997B00A5167C /* Controllers */,
 				B5ACD78A28E5980600A5167C /* Assets.xcassets */,
@@ -292,6 +303,7 @@
 				B5438ECC28F323CB00EC54BE /* SightTableViewCell.swift in Sources */,
 				B5182B4B29601FC7004F20E3 /* MapKitSightModel.swift in Sources */,
 				B55A6D6828EF083B000497C8 /* SightsTableViewController.swift in Sources */,
+				B5A7A7A129632F91002600BD /* UIButton+BlurEffect.swift in Sources */,
 				B500679D295EDB5F005F3757 /* MapViewViewModel.swift in Sources */,
 				B55A6D6A28EF131C000497C8 /* SightDetailViewController.swift in Sources */,
 				B5006798295ED692005F3757 /* MapView.swift in Sources */,
@@ -372,7 +384,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -426,7 +438,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -450,7 +462,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -478,7 +490,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
