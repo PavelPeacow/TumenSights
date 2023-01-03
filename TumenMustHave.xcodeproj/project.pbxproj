@@ -12,11 +12,12 @@
 		B5182B4B29601FC7004F20E3 /* MapKitSightModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5182B4A29601FC7004F20E3 /* MapKitSightModel.swift */; };
 		B5182B502960669E004F20E3 /* VisitedSights.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B5182B4E2960669E004F20E3 /* VisitedSights.xcdatamodeld */; };
 		B5438ECC28F323CB00EC54BE /* SightTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5438ECB28F323CB00EC54BE /* SightTableViewCell.swift */; };
-		B5585FEB28F038BC001E45E9 /* Alerts.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5585FEA28F038BC001E45E9 /* Alerts.swift */; };
 		B55A6D6328EEF20B000497C8 /* JsonDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55A6D6228EEF20B000497C8 /* JsonDecoder.swift */; };
 		B55A6D6628EF012D000497C8 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55A6D6528EF012D000497C8 /* MainTabBarController.swift */; };
 		B55A6D6828EF083B000497C8 /* SightsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55A6D6728EF083B000497C8 /* SightsTableViewController.swift */; };
 		B55A6D6A28EF131C000497C8 /* SightDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55A6D6928EF131C000497C8 /* SightDetailViewController.swift */; };
+		B58D60F8296429ED006F01AB /* AlertService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58D60F7296429ED006F01AB /* AlertService.swift */; };
+		B58D60FA29645A87006F01AB /* UITableView+Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58D60F929645A87006F01AB /* UITableView+Message.swift */; };
 		B5A7A79729607AC5002600BD /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A7A79629607AC5002600BD /* CoreDataStack.swift */; };
 		B5A7A79B29607E40002600BD /* VisitedSightEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A7A79929607E40002600BD /* VisitedSightEntity+CoreDataClass.swift */; };
 		B5A7A79C29607E40002600BD /* VisitedSightEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A7A79A29607E40002600BD /* VisitedSightEntity+CoreDataProperties.swift */; };
@@ -38,11 +39,12 @@
 		B5182B4A29601FC7004F20E3 /* MapKitSightModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapKitSightModel.swift; sourceTree = "<group>"; };
 		B5182B4F2960669E004F20E3 /* VisitedSights.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = VisitedSights.xcdatamodel; sourceTree = "<group>"; };
 		B5438ECB28F323CB00EC54BE /* SightTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SightTableViewCell.swift; sourceTree = "<group>"; };
-		B5585FEA28F038BC001E45E9 /* Alerts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alerts.swift; sourceTree = "<group>"; };
 		B55A6D6228EEF20B000497C8 /* JsonDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonDecoder.swift; sourceTree = "<group>"; };
 		B55A6D6528EF012D000497C8 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		B55A6D6728EF083B000497C8 /* SightsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SightsTableViewController.swift; sourceTree = "<group>"; };
 		B55A6D6928EF131C000497C8 /* SightDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SightDetailViewController.swift; sourceTree = "<group>"; };
+		B58D60F7296429ED006F01AB /* AlertService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertService.swift; sourceTree = "<group>"; };
+		B58D60F929645A87006F01AB /* UITableView+Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Message.swift"; sourceTree = "<group>"; };
 		B5A7A79629607AC5002600BD /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		B5A7A79929607E40002600BD /* VisitedSightEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "VisitedSightEntity+CoreDataClass.swift"; path = "../../../VisitedSightEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		B5A7A79A29607E40002600BD /* VisitedSightEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "VisitedSightEntity+CoreDataProperties.swift"; path = "../../../VisitedSightEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -113,12 +115,12 @@
 			path = Cell;
 			sourceTree = "<group>";
 		};
-		B5585FEC28F038C0001E45E9 /* Alerts */ = {
+		B5585FEC28F038C0001E45E9 /* Alert */ = {
 			isa = PBXGroup;
 			children = (
-				B5585FEA28F038BC001E45E9 /* Alerts.swift */,
+				B58D60F7296429ED006F01AB /* AlertService.swift */,
 			);
-			path = Alerts;
+			path = Alert;
 			sourceTree = "<group>";
 		};
 		B55A6D6428EEF6A1000497C8 /* Json */ = {
@@ -152,6 +154,7 @@
 			isa = PBXGroup;
 			children = (
 				B5A7A7A029632F91002600BD /* UIButton+BlurEffect.swift */,
+				B58D60F929645A87006F01AB /* UITableView+Message.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -181,7 +184,7 @@
 				B5A7A78D29607171002600BD /* CoreData */,
 				B5ACD79E28E59ABA00A5167C /* Model */,
 				B5A7A79F29632F78002600BD /* Extension */,
-				B5585FEC28F038C0001E45E9 /* Alerts */,
+				B5585FEC28F038C0001E45E9 /* Alert */,
 				B5ACD79B28E5997B00A5167C /* Controllers */,
 				B5ACD78A28E5980600A5167C /* Assets.xcassets */,
 				B5ACD78F28E5980600A5167C /* Info.plist */,
@@ -303,6 +306,7 @@
 				B5438ECC28F323CB00EC54BE /* SightTableViewCell.swift in Sources */,
 				B5182B4B29601FC7004F20E3 /* MapKitSightModel.swift in Sources */,
 				B55A6D6828EF083B000497C8 /* SightsTableViewController.swift in Sources */,
+				B58D60FA29645A87006F01AB /* UITableView+Message.swift in Sources */,
 				B5A7A7A129632F91002600BD /* UIButton+BlurEffect.swift in Sources */,
 				B500679D295EDB5F005F3757 /* MapViewViewModel.swift in Sources */,
 				B55A6D6A28EF131C000497C8 /* SightDetailViewController.swift in Sources */,
@@ -310,8 +314,8 @@
 				B55A6D6628EF012D000497C8 /* MainTabBarController.swift in Sources */,
 				B5A7A79E29631BC5002600BD /* SightDetailView.swift in Sources */,
 				B5A7A79B29607E40002600BD /* VisitedSightEntity+CoreDataClass.swift in Sources */,
-				B5585FEB28F038BC001E45E9 /* Alerts.swift in Sources */,
 				B5A7A79C29607E40002600BD /* VisitedSightEntity+CoreDataProperties.swift in Sources */,
+				B58D60F8296429ED006F01AB /* AlertService.swift in Sources */,
 				B55A6D6328EEF20B000497C8 /* JsonDecoder.swift in Sources */,
 				B5A7A79729607AC5002600BD /* CoreDataStack.swift in Sources */,
 				B5ACD78428E5980600A5167C /* SceneDelegate.swift in Sources */,

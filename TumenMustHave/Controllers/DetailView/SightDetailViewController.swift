@@ -71,13 +71,45 @@ final class SightDetailViewController: UIViewController {
             detailView.markAsVisitedSightBtn.isHidden = false
         }
     }
+    
+    private func setRouteFromTableView() {
+        let navController = tabBarController?.viewControllers?.first
+        if let navigation = navController as? UINavigationController {
+            let vc = navigation.viewControllers[0] as? MapViewController
+            self.delegate = vc
+            delegate?.didTapGetRouteBtn(sightCoordinate, selectedSight)
+            tabBarController?.selectedIndex = 0
+        }
+    }
+    
+    private func isLocationEnabled() -> Bool {
+        switch CLLocationManager.authorizationStatus() {
+        case .notDetermined, .denied:
+            return false
+        case .restricted, .authorizedAlways, .authorizedWhenInUse:
+            return true
+        @unknown default:
+            return false
+        }
+    }
         
 }
 
 private extension SightDetailViewController {
     
     @objc private func getRoute() {
-        delegate?.didTapGetRouteBtn(sightCoordinate, selectedSight)
+        
+        guard isLocationEnabled() else {
+            AlertService().showAlert(type: .turnOnLocation, in: self)
+            return
+        }
+        
+        if let delegate = delegate {
+            delegate.didTapGetRouteBtn(sightCoordinate, selectedSight)
+        } else {
+            setRouteFromTableView()
+        }
+        
         navigationController?.popViewController(animated: true)
     }
     

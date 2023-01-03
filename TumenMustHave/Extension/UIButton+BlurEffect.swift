@@ -10,7 +10,7 @@ import UIKit
 extension UIButton {
     
     func setBlur() {
-        let blurEffect = UIBlurEffect(style: .dark)
+        let blurEffect = UIBlurEffect(style: .regular)
         let blurView = UIVisualEffectView(effect: blurEffect)
         blurView.isUserInteractionEnabled = false
         blurView.frame = self.bounds

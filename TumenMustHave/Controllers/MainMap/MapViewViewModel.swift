@@ -19,14 +19,16 @@ protocol MapViewViewModelDelegate {
 
 final class MapViewViewModel {
     
+    private var sights = [Sight]()
+    
     var overlays = [MKCircle]()
     var annotations = [SightOnMap]()
     var directions = [MKRoute]()
     
-    var delegate: MapViewViewModelDelegate?
-    
-    var sights = [Sight]()
     var sightRouteCoordinate: CLLocationCoordinate2D?
+    var selectedSight: SightOnMap?
+    
+    var delegate: MapViewViewModelDelegate?
     
     var didStartRoute = false {
         didSet {
@@ -43,7 +45,7 @@ final class MapViewViewModel {
         sights = getSights()
     }
     
-    func getSights() -> [Sight] {
+    private func getSights() -> [Sight] {
         do {
             let sights = try JsonDecoder().getJsonData(with: JsonConstant.fileURL)
             return sights
@@ -77,8 +79,7 @@ final class MapViewViewModel {
         return region
     }
     
-    func centerMapOnUserLocation(with userCoordinate: CLLocationCoordinate2D) -> MKCoordinateRegion? {
-        guard isCenteringModeOn else { return nil }
+    func centerMapOnUserLocation(with userCoordinate: CLLocationCoordinate2D) -> MKCoordinateRegion {
         let center = CLLocationCoordinate2D(latitude: userCoordinate.latitude, longitude: userCoordinate.longitude)
         let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005))
         return region

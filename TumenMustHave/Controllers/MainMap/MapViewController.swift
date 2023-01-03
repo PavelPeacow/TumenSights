@@ -84,7 +84,7 @@ final class MapViewController: UIViewController {
     }
     
     private func showOnlySelectedSight(selectedSight sight: SightOnMap) {
-        let annotations = viewModel.annotations.filter { $0 != sight }
+        let annotations = viewModel.annotations.filter { $0.title != sight.title }
         mapView.map.removeAnnotations(annotations)
         let overlays = mapView.map.overlays.filter { $0.isKind(of: MKCircle.self) && $0.coordinate.latitude != sight.coordinate.latitude }
         overlays.forEach { mapView.map.removeOverlay($0) }
@@ -121,7 +121,8 @@ private extension MapViewController {
         DispatchQueue.global().async { [weak self] in
             guard !CLLocationManager.locationServicesEnabled() else {
                 DispatchQueue.main.async {
-                    self?.showTurnUserLocationOnDeviceAlert()
+                    guard let self = self else { return }
+                    AlertService().showAlert(type: .turnOnLocation, in: self)
                 }
                 return
             }
@@ -162,11 +163,11 @@ extension MapViewController: MapViewViewModelDelegate {
         switch viewModel.isCenteringModeOn {
         case true:
             guard let userCoordinate = locationManager.location?.coordinate else { return }
-            guard let region = viewModel.centerMapOnUserLocation(with: userCoordinate) else { return }
+            
+            let region = viewModel.centerMapOnUserLocation(with: userCoordinate)
             mapView.map.setRegion(region, animated: true)
             mapView.toggleRouteMonitoringModeBtn.setImage(UIImage(systemName: "location.north.line.fill"), for: .normal)
         case false:
-            
             mapView.toggleRouteMonitoringModeBtn.setImage(UIImage(systemName: "location.fill"), for: .normal)
         }
     }
@@ -267,7 +268,7 @@ extension MapViewController: CLLocationManagerDelegate {
             
         case .denied:
             
-            showTurnUserLocationOnDeviceAlert()
+            AlertService().showAlert(type: .turnOnLocation, in: self)
             navigationItem.titleView = mapView.turnOnLocationServicesBtn
             print("denied")
             
@@ -297,11 +298,20 @@ extension MapViewController: CLLocationManagerDelegate {
         //show alert when arrived to end of the road
         if distance <= 80 {
             print("you get to sight safe and sound")
+           
+            if let sight = viewModel.selectedSight {
+                if !CoreDataStack.shared.isSightVisited(sight: sight) {
+                    CoreDataStack.shared.saveSight(sight: sight)
+                }
+            }
+            
             cancelCurrentRoute()
+            AlertService().showAlert(type: .arrive, in: self)
             return
         }
         
-        if let region = viewModel.centerMapOnUserLocation(with: userCoordinate) {
+        if viewModel.isCenteringModeOn {
+            let region = viewModel.centerMapOnUserLocation(with: userCoordinate)
             mapView.map.setRegion(region, animated: true)
         }
         
@@ -320,6 +330,7 @@ extension MapViewController: GetRouteDelegate {
         showOnlySelectedSight(selectedSight: sight)
         
         viewModel.sightRouteCoordinate = coordinate
+        viewModel.selectedSight = sight
         
         let request = viewModel.createDirectionsRequest(from: userCoordinate, to: viewModel.sightRouteCoordinate!)
         viewModel.calculateDirectionRoute(with: request)

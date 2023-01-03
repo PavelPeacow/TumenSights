@@ -9,9 +9,9 @@ import UIKit
 
 final class SightDetailView: UIView {
     
-    let scrollView: UIScrollView = UIScrollView()
+    lazy var scrollView: UIScrollView = UIScrollView()
     
-    let sightImage: UIImageView = {
+    lazy var sightImage: UIImageView = {
         let image = UIImageView()
         image.clipsToBounds = true
         image.layer.cornerRadius = 25
@@ -20,14 +20,14 @@ final class SightDetailView: UIView {
         return image
     }()
     
-    let sightName: UILabel = {
+    lazy var sightName: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
         return label
     }()
     
-    let sightDescription: UILabel = {
+    lazy var sightDescription: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0

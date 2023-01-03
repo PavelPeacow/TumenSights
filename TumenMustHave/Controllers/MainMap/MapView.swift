@@ -23,7 +23,7 @@ final class MapView: UIView {
         btn.layer.cornerRadius = 15
         btn.clipsToBounds = true
         btn.titleEdgeInsets = UIEdgeInsets(top: 0, left: 6, bottom: 0, right: 6)
-        btn.setTitle("Turn on location services", for: .normal)
+        btn.setTitle("Включите отслеживание", for: .normal)
         btn.setBlur()
         return btn
     }()
@@ -80,8 +80,6 @@ final class MapView: UIView {
         super.init(frame: frame)
         
         addSubview(map)
-//        addSubview(turnOnLocationServicesBtn)
-        
         addSubview(startRouteBtn)
         addSubview(cancelRouteBtn)
         addSubview(toggleRouteMonitoringModeBtn)
