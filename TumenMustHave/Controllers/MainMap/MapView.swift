@@ -22,6 +22,7 @@ final class MapView: UIView {
         btn.titleLabel?.adjustsFontSizeToFitWidth = true
         btn.layer.cornerRadius = 15
         btn.clipsToBounds = true
+        btn.setTitleColor(.label, for: .normal)
         btn.titleEdgeInsets = UIEdgeInsets(top: 0, left: 6, bottom: 0, right: 6)
         btn.setTitle("Включите отслеживание", for: .normal)
         btn.setBlur()

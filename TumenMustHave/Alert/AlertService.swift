@@ -15,10 +15,12 @@ enum AlertType {
 
 final class AlertService: UIViewController {
     
+    private var targetViewController: UIViewController!
+    
     private lazy var alertBackground: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.layer.cornerRadius = 30
+        view.layer.cornerRadius = 15
         view.clipsToBounds = true
         
         let blurEffect = UIBlurEffect(style: .regular)
@@ -85,6 +87,8 @@ final class AlertService: UIViewController {
     
     func showAlert(type: AlertType, in viewController: UIViewController) {
 
+        targetViewController = viewController
+        
         switch type {
         case .arrive:
             alertLabel.text = "Вы достигли отмеченной достопримечательности!"
@@ -97,10 +101,11 @@ final class AlertService: UIViewController {
             alertLabel.text = "Посещенные достопримечательности будут отображены здесь!"
         }
         
-        viewController.addChild(self)
-        self.view.frame = viewController.view.frame
-        viewController.view.addSubview(self.view)
-        self.didMove(toParent: viewController)
+        targetViewController.addChild(self)
+        self.view.frame = targetViewController.view.frame
+        targetViewController.view.addSubview(self.view)
+        self.didMove(toParent: targetViewController)
+        targetViewController.navigationController?.navigationBar.isUserInteractionEnabled = false
         moveIn()
     }
         
@@ -119,6 +124,7 @@ final class AlertService: UIViewController {
             self.view.transform = CGAffineTransform(scaleX: 1.35, y: 1.35)
             self.view.alpha = 0.0
         }) { _ in
+            self.targetViewController.navigationController?.navigationBar.isUserInteractionEnabled = true
             self.view.removeFromSuperview()
         }
     }

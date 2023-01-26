@@ -118,15 +118,7 @@ private extension MapViewController {
     }
     
     @objc func requestUserLocation() {
-        DispatchQueue.global().async { [weak self] in
-            guard !CLLocationManager.locationServicesEnabled() else {
-                DispatchQueue.main.async {
-                    guard let self = self else { return }
-                    AlertService().showAlert(type: .turnOnLocation, in: self)
-                }
-                return
-            }
-        }
+        AlertService().showAlert(type: .turnOnLocation, in: self)
         
         locationManager.requestWhenInUseAuthorization()
     }
