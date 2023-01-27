@@ -92,6 +92,7 @@ final class AlertService: UIViewController {
         switch type {
         case .arrive:
             alertLabel.text = "Вы достигли отмеченной достопримечательности!"
+            okBtn.isHidden = false
         case .turnOnLocation:
             settingsBtn.isHidden = false
             alertLabel.text = "Включите отслеживание, чтобы пользоваться картами в полной мере!"

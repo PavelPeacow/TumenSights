@@ -29,39 +29,14 @@ final class MapView: UIView {
         return btn
     }()
     
+    lazy var cancelRouteBtn: RouteBtn = RouteBtn(title: "Отменить маршрут", color: .red)
+    lazy var startRouteBtn: RouteBtn = RouteBtn(title: "Начать маршрут", color: .green)
+    
     lazy var cancelRouteNavBarBtn: UIButton = {
         let btn = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
         btn.setImage(UIImage(systemName: "xmark"), for: .normal)
         btn.clipsToBounds = true
         btn.layer.cornerRadius = 20
-        btn.setBlur()
-        return btn
-    }()
-    
-    lazy var startRouteBtn: UIButton = {
-        let btn = UIButton()
-        btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.setTitle("Начать маршрут", for: .normal)
-        btn.titleEdgeInsets = UIEdgeInsets(top: 0, left: 6, bottom: 0, right: 6)
-        btn.titleLabel?.adjustsFontSizeToFitWidth = true
-        btn.setTitleColor(.green, for: .normal)
-        btn.isHidden = true
-        btn.layer.cornerRadius = 15
-        btn.clipsToBounds = true
-        btn.setBlur()
-        return btn
-    }()
-    
-    lazy var cancelRouteBtn: UIButton = {
-        let btn = UIButton()
-        btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.setTitle("Отменить маршрут", for: .normal)
-        btn.titleEdgeInsets = UIEdgeInsets(top: 0, left: 6, bottom: 0, right: 6)
-        btn.titleLabel?.adjustsFontSizeToFitWidth = true
-        btn.setTitleColor(.red, for: .normal)
-        btn.isHidden = true
-        btn.layer.cornerRadius = 15
-        btn.clipsToBounds = true
         btn.setBlur()
         return btn
     }()

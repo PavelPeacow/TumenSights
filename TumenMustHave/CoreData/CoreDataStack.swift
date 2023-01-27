@@ -27,9 +27,9 @@ final class CoreDataStack {
         return container
     }()
     
+    private lazy var context = persistentContainer.viewContext
+    
     func saveSight(sight: SightOnMap) {
-        let context = persistentContainer.viewContext
-        
         let object = VisitedSightEntity(context: context)
         object.title = sight.title
         object.subtitle = sight.subtitle
@@ -45,7 +45,6 @@ final class CoreDataStack {
     }
     
     func isSightVisited(sight: SightOnMap) -> Bool {
-        let context = persistentContainer.viewContext
         let request: NSFetchRequest<VisitedSightEntity> = VisitedSightEntity.fetchRequest()
         request.predicate = NSPredicate(format: "title == %@", sight.title!)
         
@@ -61,7 +60,6 @@ final class CoreDataStack {
     }
     
     func deleteSight(sight: SightOnMap) {
-        let context = persistentContainer.viewContext
         let request: NSFetchRequest<VisitedSightEntity> = VisitedSightEntity.fetchRequest()
         request.predicate = NSPredicate(format: "title == %@", sight.title!)
         
@@ -79,7 +77,6 @@ final class CoreDataStack {
     }
     
     func fetchSights() -> [Sight] {
-        let context = persistentContainer.viewContext
         let request: NSFetchRequest<VisitedSightEntity> = VisitedSightEntity.fetchRequest()
         request.returnsObjectsAsFaults = false
         

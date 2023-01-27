@@ -18,6 +18,7 @@
 		B55A6D6A28EF131C000497C8 /* SightDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B55A6D6928EF131C000497C8 /* SightDetailViewController.swift */; };
 		B58D60F8296429ED006F01AB /* AlertService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58D60F7296429ED006F01AB /* AlertService.swift */; };
 		B58D60FA29645A87006F01AB /* UITableView+Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = B58D60F929645A87006F01AB /* UITableView+Message.swift */; };
+		B59272932983BDCD00932ADD /* RouteBtn.swift in Sources */ = {isa = PBXBuildFile; fileRef = B59272922983BDCD00932ADD /* RouteBtn.swift */; };
 		B5A7A79729607AC5002600BD /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A7A79629607AC5002600BD /* CoreDataStack.swift */; };
 		B5A7A79B29607E40002600BD /* VisitedSightEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A7A79929607E40002600BD /* VisitedSightEntity+CoreDataClass.swift */; };
 		B5A7A79C29607E40002600BD /* VisitedSightEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A7A79A29607E40002600BD /* VisitedSightEntity+CoreDataProperties.swift */; };
@@ -45,6 +46,7 @@
 		B55A6D6928EF131C000497C8 /* SightDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SightDetailViewController.swift; sourceTree = "<group>"; };
 		B58D60F7296429ED006F01AB /* AlertService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertService.swift; sourceTree = "<group>"; };
 		B58D60F929645A87006F01AB /* UITableView+Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Message.swift"; sourceTree = "<group>"; };
+		B59272922983BDCD00932ADD /* RouteBtn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteBtn.swift; sourceTree = "<group>"; };
 		B5A7A79629607AC5002600BD /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		B5A7A79929607E40002600BD /* VisitedSightEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "VisitedSightEntity+CoreDataClass.swift"; path = "../../../VisitedSightEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		B5A7A79A29607E40002600BD /* VisitedSightEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "VisitedSightEntity+CoreDataProperties.swift"; path = "../../../VisitedSightEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -131,6 +133,14 @@
 			path = Json;
 			sourceTree = "<group>";
 		};
+		B59272942983BDD200932ADD /* Subclass */ = {
+			isa = PBXGroup;
+			children = (
+				B59272922983BDCD00932ADD /* RouteBtn.swift */,
+			);
+			path = Subclass;
+			sourceTree = "<group>";
+		};
 		B5A7A78D29607171002600BD /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
@@ -184,6 +194,7 @@
 				B5A7A78D29607171002600BD /* CoreData */,
 				B5ACD79E28E59ABA00A5167C /* Model */,
 				B5A7A79F29632F78002600BD /* Extension */,
+				B59272942983BDD200932ADD /* Subclass */,
 				B5585FEC28F038C0001E45E9 /* Alert */,
 				B5ACD79B28E5997B00A5167C /* Controllers */,
 				B5ACD78A28E5980600A5167C /* Assets.xcassets */,
@@ -305,6 +316,7 @@
 				B5ACD78228E5980600A5167C /* AppDelegate.swift in Sources */,
 				B5438ECC28F323CB00EC54BE /* SightTableViewCell.swift in Sources */,
 				B5182B4B29601FC7004F20E3 /* MapKitSightModel.swift in Sources */,
+				B59272932983BDCD00932ADD /* RouteBtn.swift in Sources */,
 				B55A6D6828EF083B000497C8 /* SightsTableViewController.swift in Sources */,
 				B58D60FA29645A87006F01AB /* UITableView+Message.swift in Sources */,
 				B5A7A7A129632F91002600BD /* UIButton+BlurEffect.swift in Sources */,
@@ -388,7 +400,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -442,7 +454,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
